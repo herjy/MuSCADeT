@@ -6,8 +6,9 @@ INSTALLATION:
 "python setup.py install"
 
 ========================================================
-TESTS:
-In M2CAD, open the Examples file and execute:
+The results presented in Joseph et al. 2015 can be recovered by running the script provided in the "Example" folder. The scripts can be used to run our algorithm on other data. 
+
+In M2CAD, open the Examples folder and execute:
 "python Example_simple.py"
 
 Inputs provided in the Simu_simple folder:
