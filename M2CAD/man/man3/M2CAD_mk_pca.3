@@ -1,0 +1,65 @@
+.TH "M2CAD.mk_pca" 3 "Tue Dec 1 2015" "Version 1.0" "M2CAD" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+M2CAD.mk_pca \- 
+.SH SYNOPSIS
+.br
+.PP
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "def \fBmk_pca\fP"
+.br
+.ti -1c
+.RI "def \fBrec_pca\fP"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+
+.PP
+.nf
+@package M2CAD
+.fi
+.PP
+ 
+.SH "Function Documentation"
+.PP 
+.SS "def M2CAD\&.mk_pca\&.mk_pca ( vectors,  dec = \fC0\fP)"
+
+.PP
+.nf
+Perfoms Principal Component Analysis of a set of vectors
+INPUTS:
+    vectors: Set of vectors to be decomposed through PCA.
+OUTPUTS:
+    alpha: PCA coefficients resulting of the decomposition of the vectors.
+    EN_2: PCA basis set.
+OPTIONS:
+    dec: if non zero, dec is used as a PCA basis to decompose the vectors. In this case,
+    a simple projection is thus conducted instead of the PCA.
+
+.fi
+.PP
+ 
+.SS "def M2CAD\&.mk_pca\&.rec_pca ( alpha,  base,  lim = \fC0\fP)"
+
+.PP
+.nf
+Reconstructs a signal in direct space from its PCA coefficients and the basis over which it has been decomposed.
+INPUTS:
+    alpha: sets of PCA coefficients.
+    basis: the basis over which the signal has been decomposed.
+OUTPUTS:
+    rec: reconstructed signal
+OPTIONS:
+    lim: if lim is set to non-zero value, lim is maximal number of coefficients used in the reconstruction.
+
+.fi
+.PP
+ 
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for M2CAD from the source code\&.

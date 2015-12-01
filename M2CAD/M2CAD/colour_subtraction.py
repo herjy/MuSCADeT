@@ -1,3 +1,7 @@
+"""@package M2CAD
+
+"""
+
 import numpy as np
 import matplotlib.pyplot as plt
 import pyfits as pf
@@ -7,6 +11,32 @@ import subprocess as sp
 from M2CAD import MCA
 
 def make_colour_sub(Sfile,Afile,Xfile,suffixe,prefix = './', cuts = ['0','0.1','-0.002','0.06','-0.002','0.03']):
+    """
+     Creates colour images and visualisation of the residuals of the separation of estimated sources from a colour image.
+     INPUTS:
+        Sfile: name and path to a fits file with sources as estimated from M2CAD.
+        Afile: name and path to a fits file with mixing coefficients as estimated from M2CAD.
+        Xfile: name and path to a fits cube with original multi-band images used to feed M2CAD.
+        suffixe: string that will be added at the end of the names of the png files showing the residuals.
+    OUTPUTS:
+        none. The code writes fits files and png files with the resulting residuals:
+            prefix+'Colour_images.fits'
+            prefix+'Red_residuals.fits'
+            prefix+'Blue_residuals.fits'
+            prefix+'Colour_residuals.fits'
+            prefix+'S1_'+suffixe+'.png'
+            prefix+'S2_'+suffixe+'.png'
+            prefix+'Red_'+suffixe+'.png'
+            prefix+'Blue_'+suffixe+'.png'
+            prefix+'All_'+suffixe+'.png'
+            prefix+'Res_'+suffixe+'.png'
+    OPTIONS:
+        prefix: string, location where to save fits and png files.
+        cuts: colour cuts to apply to ds9 visualisation tool. cuts is an array
+        with values [minR, maxR, minG, maxG, minB, maxB] where minR is the lower red cut and maxR
+        is the maximum red cut (idem for Green and Blue)
+    """
+    
     S = pf.open(Sfile)[0].data
     A = pf.open(Afile)[0].data
     X = pf.open(Xfile)[0].data

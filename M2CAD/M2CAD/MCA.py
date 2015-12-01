@@ -1,3 +1,8 @@
+"""@package M2CAD
+
+
+"""
+
 import numpy as np
 import matplotlib.pyplot as plt
 import pca_ring_spectrum as pcas
@@ -6,37 +11,36 @@ import wave_transform as mw
 import pylab
 import scipy.ndimage.filters as med
 
-"""@package M2CAD
 
-"""
-
-def mMCA(img, A,kmax, niter,mode = 'PCA', PCA = [0,0,10], harder = 0, pos = False,threshmode = 'mom',lvl = 6, soft = False, reweighting = 'none'):
-###############################################################################
+def mMCA(img, A,kmax, niter,mode = 'PCA', PCA = [2,10], harder = 0, pos = False,threshmode = 'mom',lvl = 6, soft = False, reweighting = 'none'):
     """
-##  mMCA runs the M2CAD algorithm over a cube of multi-band images.
-##  
-##  INPUTS:
-##      img:
-##      A:
-##      kmax:
-##      niter:
-##
-##  OUTPUTS:
-##      S:
-##      A:
-##
-##  OPTIONS:
-##      mode:
-##      PCA:
-##      harder:
-##      pos:
-##      threshmode:
-##      lvl:
-##      soft:
-##
-##  EXAMPLE:
-##
-###############################################################################
+      mMCA runs the M2CAD algorithm over a cube of multi-band images.
+  
+      INPUTS:
+          img: multiband cube with size nbxn1xn2 where nb is the number of bands and n1xn2,
+the size of the images
+          A: the mixing matrix. if mode is set to 'PCA', A will be ignored and can be set to 0
+          kmax: detection threshold in units of noise standard deviation usually chosen between 3 and 5 
+          niter: number of iterations of the M2CAD algorithm
+
+      OUTPUTS:
+          S: extracted sources
+          A: mixing matrix, either given by the user or estimate by PCA with option mode ='PCA' 
+
+      OPTIONS:
+          mode: if set to 'PCA', the mixing matrix A will be estimated from PCA decomposition of the SEDs
+          PCA: parameters for PCA sensitivity. if mode is set to 'PCA', the PCA estimator will take PCA[0]
+as the number of sources to be extracted and PCA[1] as a sensitivity parameter to discriminate between
+source. Values betwee 5 and 30 are usually recommended
+          harder: if set to 1, 
+          pos: if set to True, the output of the hard thresholding procedure is constrined to be positive
+          threshmode: if set to 'mom', adaptive method of moments is used at every iteration to decrease the  threshold
+          lvl: number of wavelet levels to use in the decompositions, default is 6.
+          soft: if set to True, soft thresholding is used 
+
+      EXAMPLE:
+
+    
     """
     noisetab = np.array([ 0.8907963 ,  0.20066385,  0.08550751,  0.04121745,  0.02042497,
         0.01018976,  0.00504662,  0.00368314])
@@ -197,23 +201,23 @@ def mMCA(img, A,kmax, niter,mode = 'PCA', PCA = [0,0,10], harder = 0, pos = Fals
 
 
 def MOM(R,sigma,lvl = 6):
-################################################################################
-##Estimates the best for a threshold from method of moments
-##
-##  INPUTS:
-##      R:
-##      sigma:
-##
-##  OUTPUTS:
-##      k:
-##
-##  OPTIONS:
-##      lvl:
-##
-##  EXAMPLES
-##
-##
-################################################################################
+    """
+    Estimates the best for a threshold from method of moments
+
+      INPUTS:
+          R: multi-sources cube with size nsxn1xn2 where ns is the number of sources
+          and n1xn2, the size of an image
+          sigma: noise standard deviation
+
+      OUTPUTS:
+          k: threshold level
+
+      OPTIONS:
+          lvl: number of wavelet levels used in the decomposition, default is 6.
+
+      EXAMPLES
+    """
+
     ns,n1,n2 = np.shape(R)
     
     noisetab = np.array([ 0.8907963 ,  0.20066385,  0.08550751,  0.04121745,  0.02042497,
@@ -235,52 +239,51 @@ def MOM(R,sigma,lvl = 6):
     
 
 def MAD(x):
-################################################################################
-##  Estimates noise level in an image from Median Absolute Deviation
-##
-##  INPUTS:
-##      x: 
-##
-##  OUTPUTS:
-##      sigma:
-##
-##  EXAMPLES
-##
-##
-################################################################################
-        meda = med.median_filter(x,size = (3,3))
-        medfil = np.abs(x-meda)
-        sh = np.shape(x)
-        sigma = 1.48*np.median((medfil))
-        return sigma
+    """
+      Estimates noise level in an image from Median Absolute Deviation
+
+      INPUTS:
+          x: image 
+
+      OUTPUTS:
+          sigma: noise standard deviation
+
+      EXAMPLES
+    """
+    meda = med.median_filter(x,size = (3,3))
+    medfil = np.abs(x-meda)
+    sh = np.shape(x)
+    sigma = 1.48*np.median((medfil))
+    return sigma
 
 def mr_filter(img, niter, k, sigma,lvl = 6, pos = False, harder = 0,mulweight = 1, subweight = 0, addweight = 0, soft = False):
-################################################################################
-##  Computes wavelet iterative filtering on an image.
-##
-##  INPUTS:
-##      img:
-##      niter:
-##      k:
-##      sigma:
-##
-##  OUTPUTS:
-##      imnew:
-##      wmap:
-##
-##  OPTIONS:
-##      lvl:
-##      pos:
-##      harder:
-##      mulweight:
-##      subweight:
-##      addweight:
-##      soft:
-##      
-##  EXAMPLES
-##
-##
-################################################################################
+    """
+      Computes wavelet iterative filtering on an image.
+
+      INPUTS:
+          img: image to be filtered
+          niter: number of iterations (10 is usually recommended)
+          k: threshold level in units of sigma
+          sigma: noise standard deviation
+
+      OUTPUTS:
+          imnew: filtered image
+          wmap: weight map
+
+      OPTIONS:
+          lvl: number of wavelet levels used in the decomposition, default is 6.
+          pos: if set to True, positivity constrain is applied to the output image
+          harder: if set to one, threshold levels are risen. This is used to compensate for correlated noise
+          for instance
+          mulweight: multiplicative weight (default is 1)
+          subweight: weight map derived from other sources applied to diminish the impact of a given set of coefficient (default is 0)
+          addweight: weight map used to enhance previously detected features in an iterative process (default is 0)
+          soft: if set to True, soft thresholding is used
+          
+      EXAMPLES
+    """
+
+
     levels = np.array([ 0.8907963 ,  0.20066385,  0.08550751,  0.04121745,  0.02042497,
         0.01018976,  0.00504662,  0.00368314])
     levels2g = np.array([ 0.94288346,  0.22998949,  0.10029194,  0.04860995,  0.02412084,
@@ -296,9 +299,9 @@ def mr_filter(img, niter, k, sigma,lvl = 6, pos = False, harder = 0,mulweight = 
     sh = np.shape(M)
     th = np.ones(sh)*(k)
     ##A garder
-    th[0,:,:] = th[0,0,0]+1+10*harder
-    th[1,:,:] = th[1,:,:]+15*harder
-    th[2,:,:] = th[2,:,:]+10*harder
+    th[0,:,:] = th[0,0,0]+1+5*harder
+    th[1,:,:] = th[1,:,:]+5*harder
+    th[2,:,:] = th[2,:,:]+5*harder
  #   th[3,:,:] = th[3,:,:]+2*harder
  #   th[4,:,:] = th[4,:,:]+5*harder
     
@@ -340,21 +343,20 @@ def mr_filter(img, niter, k, sigma,lvl = 6, pos = False, harder = 0,mulweight = 
 
 
 def linorm(A,nit):
-################################################################################
-##  Estimates the maximal eigen value of a matrix A
-##
-##  INPUTS:
-##      A:
-##      nit:
-##
-##  OUTPUTS:
-##      xn:
-##
-##EXAMPLES
-##
-##
-##
-################################################################################
+    """
+      Estimates the maximal eigen value of a matrix A
+
+      INPUTS:
+          A: matrix
+          nit: number of iterations
+
+      OUTPUTS:
+          xn: maximal eigen value
+
+       EXAMPLES
+
+    """
+
     ns,nb = np.shape(A)
     x0 = np.random.rand(nb)
     x0 = x0/np.sqrt(np.sum(x0**2))
@@ -375,74 +377,73 @@ def linorm(A,nit):
 
 
 def PCA_initialise(cube, ns, angle = 15,npca = 64):
-################################################################################
-##  Estimates the mixing matrix of of two sources in a multi band set of images
-##
-##  INPUTS:
-##      cube:
-##      ns:
-##
-##  OUTPUTS:
-##      A0:
-##
-##  OPTIONS:
-##      angle:
-##      mode:
-##      npca:
-##
-##EXAMPLES
-##
-##
-################################################################################
-        n,n,nband = np.shape(cube)
-        cubep = cube+0.
-        s = np.zeros(nband)
-        for i in range(nband):
-            s[i] = MAD(cube[:,:,i])
-            cubep[:,:,i] = mr_filter(cube[:,:,i],10,3,s[i],harder = 0)[0]
-        
-        cubepca = np.zeros((np.min([n,npca]),np.min([n,npca]),nband))
-        xk,yk = np.where(cubepca[:,:,0]==0)
-        cubepca[xk ,yk,:] = cubep[xk*(n/npca),yk*(n/npca),:]
-        lines = np.reshape(cubep,(n**2, nband))
+    """
+      Estimates the mixing matrix of of two sources in a multi band set of images
 
-       
-        alphas, basis, sig= pcas.pca_ring_spectrum(cubepca[:,:,:].T,std = s)    
-        ims0 = pcas.pca_lines(alphas,sig,angle, ns)
+      INPUTS:
+          cube: multi-band cube from which to extract mixing coefficients
+          ns: number of mixed sources
 
-        vals = np.array(list(set(np.reshape(ims0,(npca*npca)))))
+      OUTPUTS:
+          A0: mixing matrix
 
-        vals = vals[np.where(vals>=0)]
-        nsp = np.size(vals)
-        
-        spectras = np.ones([ns, nband])
-        rank = nsp
-        
+      OPTIONS:
+          angle: sensitivity parameter. The angular resolution at which the algorithm has to look for PCA coefficients clustering
+          npca: square root of the number of pixels to be used. Since too big images result in too big computation time
+          we propose to downsample the image in order to get reasonable calculation time
 
-        S_prior = np.zeros((n,n,np.size(vals)))
-        xs,ys = np.where(S_prior[:,:,0]==0)
-        count = 0
+      EXAMPLES
+    """
 
-        for k in vals:
-        
-            x,y = np.where(ims0 == k)
-            im = np.zeros((npca, npca))
-            im[x,y] = 1
-  
-            S_prior[xs,ys,count] = im[np.int_(xs*(npca/n)), np.int_(ys*(npca/n))]#/(k+1)
-
-            vecube = np.reshape(cubepca,(nband,npca*npca))
+    n,n,nband = np.shape(cube)
+    cubep = cube+0.
+    s = np.zeros(nband)
+    for i in range(nband):
+        s[i] = MAD(cube[:,:,i])
+        cubep[:,:,i] = mr_filter(cube[:,:,i],10,3,s[i],harder = 0)[0]
     
-            ######Essai norm#####
-            xcol,ycol=np.where(ims0==k)
-            specs = np.reshape(cubepca[xcol,ycol,:],(len(xcol),nband))
-            s1 =np.multiply(np.mean(specs,0),
-                                          1/np.sum(np.reshape(cubepca,(npca**2,nband),0)))
-            spectras[count,:]=s1/np.sum(s1,0)
-            S_prior[:,:,count] = S_prior[:,:,count]*np.dot(cube,spectras[count,:])
-            count = count+1
-     
-        S0 = np.reshape(S_prior[:,:,::-1],(ns,n*n))
-        A0 = spectras.T
-        
-        return A0
+    cubepca = np.zeros((np.min([n,npca]),np.min([n,npca]),nband))
+    xk,yk = np.where(cubepca[:,:,0]==0)
+    cubepca[xk ,yk,:] = cubep[xk*(n/npca),yk*(n/npca),:]
+    lines = np.reshape(cubep,(n**2, nband))
+
+   
+    alphas, basis, sig= pcas.pca_ring_spectrum(cubepca[:,:,:].T,std = s)    
+    ims0 = pcas.pca_lines(alphas,sig,angle, ns)
+
+    vals = np.array(list(set(np.reshape(ims0,(npca*npca)))))
+
+    vals = vals[np.where(vals>=0)]
+    nsp = np.size(vals)
+    
+    spectras = np.ones([ns, nband])
+    rank = nsp
+    
+
+    S_prior = np.zeros((n,n,np.size(vals)))
+    xs,ys = np.where(S_prior[:,:,0]==0)
+    count = 0
+
+    for k in vals:
+    
+        x,y = np.where(ims0 == k)
+        im = np.zeros((npca, npca))
+        im[x,y] = 1
+
+        S_prior[xs,ys,count] = im[np.int_(xs*(npca/n)), np.int_(ys*(npca/n))]#/(k+1)
+
+        vecube = np.reshape(cubepca,(nband,npca*npca))
+
+        ######Essai norm#####
+        xcol,ycol=np.where(ims0==k)
+        specs = np.reshape(cubepca[xcol,ycol,:],(len(xcol),nband))
+        s1 =np.multiply(np.mean(specs,0),
+                                      1/np.sum(np.reshape(cubepca,(npca**2,nband),0)))
+        spectras[count,:]=s1/np.sum(s1,0)
+        S_prior[:,:,count] = S_prior[:,:,count]*np.dot(cube,spectras[count,:])
+        count = count+1
+ 
+    S0 = np.reshape(S_prior[:,:,::-1],(ns,n*n))
+    A0 = spectras.T
+    
+    return A0

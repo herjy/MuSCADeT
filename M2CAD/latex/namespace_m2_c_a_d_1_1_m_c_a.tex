@@ -1,0 +1,251 @@
+\hypertarget{namespace_m2_c_a_d_1_1_m_c_a}{}\section{M2\+C\+A\+D.\+M\+C\+A Namespace Reference}
+\label{namespace_m2_c_a_d_1_1_m_c_a}\index{M2\+C\+A\+D.\+M\+C\+A@{M2\+C\+A\+D.\+M\+C\+A}}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+def \hyperlink{namespace_m2_c_a_d_1_1_m_c_a_a70cf3f2d05b496e8b8d38a347f264f3b}{m\+M\+C\+A}
+\item 
+def \hyperlink{namespace_m2_c_a_d_1_1_m_c_a_af1254da44bc945707bb434f75729153b}{M\+O\+M}
+\item 
+def \hyperlink{namespace_m2_c_a_d_1_1_m_c_a_afaeada192d060b003600f552e2af3c7c}{M\+A\+D} (x)
+\item 
+def \hyperlink{namespace_m2_c_a_d_1_1_m_c_a_a1ee3f1fb24ae77e4c1e0dd63bfaf6055}{mr\+\_\+filter}
+\item 
+def \hyperlink{namespace_m2_c_a_d_1_1_m_c_a_a9ada413dc4be9b3c6082df4ecf8379d1}{linorm} (A, nit)
+\item 
+def \hyperlink{namespace_m2_c_a_d_1_1_m_c_a_a0f9be8aba58fe7d82c24e7a6d45994d4}{P\+C\+A\+\_\+initialise}
+\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{namespace_m2_c_a_d_1_1_m_c_a_aa68c55991adc66d364c4baf8fa9eabec}{}tuple \hyperlink{namespace_m2_c_a_d_1_1_m_c_a_aa68c55991adc66d364c4baf8fa9eabec}{reweight} = (thmap\mbox{[}j,\+:,\+:,\+:\mbox{]})\label{namespace_m2_c_a_d_1_1_m_c_a_aa68c55991adc66d364c4baf8fa9eabec}
+
+\begin{DoxyCompactList}\small\item\em test \end{DoxyCompactList}\item 
+\hypertarget{namespace_m2_c_a_d_1_1_m_c_a_abea0aecf75478dd1db6e58a19395a317}{}tuple {\bfseries sub} = (thmap\mbox{[}j-\/1,\+:,\+:,\+:\mbox{]})\label{namespace_m2_c_a_d_1_1_m_c_a_abea0aecf75478dd1db6e58a19395a317}
+
+\item 
+\hypertarget{namespace_m2_c_a_d_1_1_m_c_a_a734e32c86ac45a55f2839eee57b247f2}{}int {\bfseries weight2} = 1\label{namespace_m2_c_a_d_1_1_m_c_a_a734e32c86ac45a55f2839eee57b247f2}
+
+\item 
+\hypertarget{namespace_m2_c_a_d_1_1_m_c_a_aa53fb5193158f96f7ff5559be1c03415}{}tuple {\bfseries kthr} = np.\+max(\mbox{[}kmax, k\mbox{]})\label{namespace_m2_c_a_d_1_1_m_c_a_aa53fb5193158f96f7ff5559be1c03415}
+
+\item 
+\hypertarget{namespace_m2_c_a_d_1_1_m_c_a_ac51b57a703ba1c5869228690c93e1701}{}{\bfseries X} = X+S\label{namespace_m2_c_a_d_1_1_m_c_a_ac51b57a703ba1c5869228690c93e1701}
+
+\item 
+\hypertarget{namespace_m2_c_a_d_1_1_m_c_a_adc468c70fb574ebd07287b38d0d0676d}{}{\bfseries k} = k-\/step\label{namespace_m2_c_a_d_1_1_m_c_a_adc468c70fb574ebd07287b38d0d0676d}
+
+\item 
+\hypertarget{namespace_m2_c_a_d_1_1_m_c_a_a2d913d6fe166812a0c26c0846643b965}{}tuple {\bfseries S} = np.\+zeros((ns,n1,n2))\label{namespace_m2_c_a_d_1_1_m_c_a_a2d913d6fe166812a0c26c0846643b965}
+
+\item 
+\hypertarget{namespace_m2_c_a_d_1_1_m_c_a_a190a7f9351189e5a4b7addd54de129e6}{}tuple {\bfseries sig} = np.\+zeros((nb))\label{namespace_m2_c_a_d_1_1_m_c_a_a190a7f9351189e5a4b7addd54de129e6}
+
+\item 
+\hypertarget{namespace_m2_c_a_d_1_1_m_c_a_a0dfb357d90d37dfc9f1359460fac09d3}{}int {\bfseries serr} = sig+0\label{namespace_m2_c_a_d_1_1_m_c_a_a0dfb357d90d37dfc9f1359460fac09d3}
+
+\item 
+\hypertarget{namespace_m2_c_a_d_1_1_m_c_a_aa682e1d690ae66dc73aed8817ce2d381}{}tuple {\bfseries err} = np.\+sum((img\mbox{[}i,\+:,\+:\mbox{]}-\/A\mbox{[}i,0\mbox{]}$\ast$S\mbox{[}0,\+:,\+:\mbox{]}-\/A\mbox{[}i,1\mbox{]}$\ast$S\mbox{[}1,\+:,\+:\mbox{]}))\label{namespace_m2_c_a_d_1_1_m_c_a_aa682e1d690ae66dc73aed8817ce2d381}
+
+\item 
+\hypertarget{namespace_m2_c_a_d_1_1_m_c_a_a369c4c9067389a4d5f17c1f7b7863360}{}tuple {\bfseries Chi} = np.\+sum(serr/sigma\+\_\+y$\ast$$\ast$2)\label{namespace_m2_c_a_d_1_1_m_c_a_a369c4c9067389a4d5f17c1f7b7863360}
+
+\item 
+\hypertarget{namespace_m2_c_a_d_1_1_m_c_a_ad8b3b442521788f398aee375a7f54b21}{}tuple {\bfseries th} = np.\+multiply(th.\+T,levels\mbox{[}\+:sh\mbox{[}0\mbox{]}\mbox{]})\label{namespace_m2_c_a_d_1_1_m_c_a_ad8b3b442521788f398aee375a7f54b21}
+
+\item 
+\hypertarget{namespace_m2_c_a_d_1_1_m_c_a_aca21a8660fc6c559fdec975eab086930}{}int {\bfseries imnew} = 0\label{namespace_m2_c_a_d_1_1_m_c_a_aca21a8660fc6c559fdec975eab086930}
+
+\item 
+\hypertarget{namespace_m2_c_a_d_1_1_m_c_a_acb559820d9ca11295b4500f179ef6392}{}int {\bfseries i} = 0\label{namespace_m2_c_a_d_1_1_m_c_a_acb559820d9ca11295b4500f179ef6392}
+
+\item 
+\hypertarget{namespace_m2_c_a_d_1_1_m_c_a_acb95449a94688af33f6e9bb090cf2936}{}{\bfseries R} = img\label{namespace_m2_c_a_d_1_1_m_c_a_acb95449a94688af33f6e9bb090cf2936}
+
+\item 
+\hypertarget{namespace_m2_c_a_d_1_1_m_c_a_a78c13eb9dcf07c8b61522f27f21e5297}{}tuple {\bfseries alpha} = mw.\+wave\+\_\+transform(R,lvl, newwave = 0)\label{namespace_m2_c_a_d_1_1_m_c_a_a78c13eb9dcf07c8b61522f27f21e5297}
+
+\item 
+\hypertarget{namespace_m2_c_a_d_1_1_m_c_a_a552bc71982c0deaa403a04296b4be4b8}{}tuple {\bfseries Rnew} = mw.\+iuwt(M$\ast$alpha)\label{namespace_m2_c_a_d_1_1_m_c_a_a552bc71982c0deaa403a04296b4be4b8}
+
+\item 
+\hypertarget{namespace_m2_c_a_d_1_1_m_c_a_ae1e6dd94df9792605d1bc99dbf311922}{}tuple {\bfseries wmap} = mw.\+wave\+\_\+transform(imnew,lvl)\label{namespace_m2_c_a_d_1_1_m_c_a_ae1e6dd94df9792605d1bc99dbf311922}
+
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\begin{DoxyVerb}@package M2CAD\end{DoxyVerb}
+ 
+
+\subsection{Function Documentation}
+\hypertarget{namespace_m2_c_a_d_1_1_m_c_a_a9ada413dc4be9b3c6082df4ecf8379d1}{}\index{M2\+C\+A\+D\+::\+M\+C\+A@{M2\+C\+A\+D\+::\+M\+C\+A}!linorm@{linorm}}
+\index{linorm@{linorm}!M2\+C\+A\+D\+::\+M\+C\+A@{M2\+C\+A\+D\+::\+M\+C\+A}}
+\subsubsection[{linorm(\+A, nit)}]{\setlength{\rightskip}{0pt plus 5cm}def M2\+C\+A\+D.\+M\+C\+A.\+linorm (
+\begin{DoxyParamCaption}
+\item[{}]{A, }
+\item[{}]{nit}
+\end{DoxyParamCaption}
+)}\label{namespace_m2_c_a_d_1_1_m_c_a_a9ada413dc4be9b3c6082df4ecf8379d1}
+\begin{DoxyVerb}  Estimates the maximal eigen value of a matrix A
+
+  INPUTS:
+      A: matrix
+      nit: number of iterations
+
+  OUTPUTS:
+      xn: maximal eigen value
+
+   EXAMPLES\end{DoxyVerb}
+ \hypertarget{namespace_m2_c_a_d_1_1_m_c_a_afaeada192d060b003600f552e2af3c7c}{}\index{M2\+C\+A\+D\+::\+M\+C\+A@{M2\+C\+A\+D\+::\+M\+C\+A}!M\+A\+D@{M\+A\+D}}
+\index{M\+A\+D@{M\+A\+D}!M2\+C\+A\+D\+::\+M\+C\+A@{M2\+C\+A\+D\+::\+M\+C\+A}}
+\subsubsection[{M\+A\+D(x)}]{\setlength{\rightskip}{0pt plus 5cm}def M2\+C\+A\+D.\+M\+C\+A.\+M\+A\+D (
+\begin{DoxyParamCaption}
+\item[{}]{x}
+\end{DoxyParamCaption}
+)}\label{namespace_m2_c_a_d_1_1_m_c_a_afaeada192d060b003600f552e2af3c7c}
+\begin{DoxyVerb}  Estimates noise level in an image from Median Absolute Deviation
+
+  INPUTS:
+      x: image 
+
+  OUTPUTS:
+      sigma: noise standard deviation
+
+  EXAMPLES
+\end{DoxyVerb}
+ \hypertarget{namespace_m2_c_a_d_1_1_m_c_a_a70cf3f2d05b496e8b8d38a347f264f3b}{}\index{M2\+C\+A\+D\+::\+M\+C\+A@{M2\+C\+A\+D\+::\+M\+C\+A}!m\+M\+C\+A@{m\+M\+C\+A}}
+\index{m\+M\+C\+A@{m\+M\+C\+A}!M2\+C\+A\+D\+::\+M\+C\+A@{M2\+C\+A\+D\+::\+M\+C\+A}}
+\subsubsection[{m\+M\+C\+A}]{\setlength{\rightskip}{0pt plus 5cm}def M2\+C\+A\+D.\+M\+C\+A.\+m\+M\+C\+A (
+\begin{DoxyParamCaption}
+\item[{}]{img, }
+\item[{}]{A, }
+\item[{}]{kmax, }
+\item[{}]{niter, }
+\item[{}]{mode = {\ttfamily \textquotesingle{}PCA\textquotesingle{}}, }
+\item[{}]{P\+C\+A = {\ttfamily \mbox{[}2}, }
+\item[{}]{harder = {\ttfamily 0}, }
+\item[{}]{pos = {\ttfamily False}, }
+\item[{}]{threshmode = {\ttfamily \textquotesingle{}mom\textquotesingle{}}, }
+\item[{}]{lvl = {\ttfamily 6}, }
+\item[{}]{soft = {\ttfamily False}, }
+\item[{}]{reweighting = {\ttfamily \textquotesingle{}none\textquotesingle{}}}
+\end{DoxyParamCaption}
+)}\label{namespace_m2_c_a_d_1_1_m_c_a_a70cf3f2d05b496e8b8d38a347f264f3b}
+\begin{DoxyVerb}  mMCA runs the M2CAD algorithm over a cube of multi-band images.
+  
+  INPUTS:
+      img: multiband cube with size nbxn1xn2 where nb is the number of bands and n1xn2,
+the size of the images
+      A: the mixing matrix. if mode is set to 'PCA', A will be ignored and can be set to 0
+      kmax: detection threshold in units of noise standard deviation usually chosen between 3 and 5 
+      niter: number of iterations of the M2CAD algorithm
+
+  OUTPUTS:
+      S: extracted sources
+      A: mixing matrix, either given by the user or estimate by PCA with option mode ='PCA' 
+
+  OPTIONS:
+      mode: if set to 'PCA', the mixing matrix A will be estimated from PCA decomposition of the SEDs
+      PCA: parameters for PCA sensitivity. if mode is set to 'PCA', the PCA estimator will take PCA[0]
+as the number of sources to be extracted and PCA[1] as a sensitivity parameter to discriminate between
+source. Values betwee 5 and 30 are usually recommended
+      harder: if set to 1, 
+      pos: if set to True, the output of the hard thresholding procedure is constrined to be positive
+      threshmode: if set to 'mom', adaptive method of moments is used at every iteration to decrease the  threshold
+      lvl: number of wavelet levels to use in the decompositions, default is 6.
+      soft: if set to True, soft thresholding is used 
+
+  EXAMPLE:\end{DoxyVerb}
+ \hypertarget{namespace_m2_c_a_d_1_1_m_c_a_af1254da44bc945707bb434f75729153b}{}\index{M2\+C\+A\+D\+::\+M\+C\+A@{M2\+C\+A\+D\+::\+M\+C\+A}!M\+O\+M@{M\+O\+M}}
+\index{M\+O\+M@{M\+O\+M}!M2\+C\+A\+D\+::\+M\+C\+A@{M2\+C\+A\+D\+::\+M\+C\+A}}
+\subsubsection[{M\+O\+M}]{\setlength{\rightskip}{0pt plus 5cm}def M2\+C\+A\+D.\+M\+C\+A.\+M\+O\+M (
+\begin{DoxyParamCaption}
+\item[{}]{R, }
+\item[{}]{sigma, }
+\item[{}]{lvl = {\ttfamily 6}}
+\end{DoxyParamCaption}
+)}\label{namespace_m2_c_a_d_1_1_m_c_a_af1254da44bc945707bb434f75729153b}
+\begin{DoxyVerb}Estimates the best for a threshold from method of moments
+
+  INPUTS:
+      R: multi-sources cube with size nsxn1xn2 where ns is the number of sources
+      and n1xn2, the size of an image
+      sigma: noise standard deviation
+
+  OUTPUTS:
+      k: threshold level
+
+  OPTIONS:
+      lvl: number of wavelet levels used in the decomposition, default is 6.
+
+  EXAMPLES
+\end{DoxyVerb}
+ \hypertarget{namespace_m2_c_a_d_1_1_m_c_a_a1ee3f1fb24ae77e4c1e0dd63bfaf6055}{}\index{M2\+C\+A\+D\+::\+M\+C\+A@{M2\+C\+A\+D\+::\+M\+C\+A}!mr\+\_\+filter@{mr\+\_\+filter}}
+\index{mr\+\_\+filter@{mr\+\_\+filter}!M2\+C\+A\+D\+::\+M\+C\+A@{M2\+C\+A\+D\+::\+M\+C\+A}}
+\subsubsection[{mr\+\_\+filter}]{\setlength{\rightskip}{0pt plus 5cm}def M2\+C\+A\+D.\+M\+C\+A.\+mr\+\_\+filter (
+\begin{DoxyParamCaption}
+\item[{}]{img, }
+\item[{}]{niter, }
+\item[{}]{k, }
+\item[{}]{sigma, }
+\item[{}]{lvl = {\ttfamily 6}, }
+\item[{}]{pos = {\ttfamily False}, }
+\item[{}]{harder = {\ttfamily 0}, }
+\item[{}]{mulweight = {\ttfamily 1}, }
+\item[{}]{subweight = {\ttfamily 0}, }
+\item[{}]{addweight = {\ttfamily 0}, }
+\item[{}]{soft = {\ttfamily False}}
+\end{DoxyParamCaption}
+)}\label{namespace_m2_c_a_d_1_1_m_c_a_a1ee3f1fb24ae77e4c1e0dd63bfaf6055}
+\begin{DoxyVerb}  Computes wavelet iterative filtering on an image.
+
+  INPUTS:
+      img: image to be filtered
+      niter: number of iterations (10 is usually recommended)
+      k: threshold level in units of sigma
+      sigma: noise standard deviation
+
+  OUTPUTS:
+      imnew: filtered image
+      wmap: weight map
+
+  OPTIONS:
+      lvl: number of wavelet levels used in the decomposition, default is 6.
+      pos: if set to True, positivity constrain is applied to the output image
+      harder: if set to one, threshold levels are risen. This is used to compensate for correlated noise
+      for instance
+      mulweight: multiplicative weight (default is 1)
+      subweight: weight map derived from other sources applied to diminish the impact of a given set of coefficient (default is 0)
+      addweight: weight map used to enhance previously detected features in an iterative process (default is 0)
+      soft: if set to True, soft thresholding is used
+      
+  EXAMPLES
+\end{DoxyVerb}
+ \hypertarget{namespace_m2_c_a_d_1_1_m_c_a_a0f9be8aba58fe7d82c24e7a6d45994d4}{}\index{M2\+C\+A\+D\+::\+M\+C\+A@{M2\+C\+A\+D\+::\+M\+C\+A}!P\+C\+A\+\_\+initialise@{P\+C\+A\+\_\+initialise}}
+\index{P\+C\+A\+\_\+initialise@{P\+C\+A\+\_\+initialise}!M2\+C\+A\+D\+::\+M\+C\+A@{M2\+C\+A\+D\+::\+M\+C\+A}}
+\subsubsection[{P\+C\+A\+\_\+initialise}]{\setlength{\rightskip}{0pt plus 5cm}def M2\+C\+A\+D.\+M\+C\+A.\+P\+C\+A\+\_\+initialise (
+\begin{DoxyParamCaption}
+\item[{}]{cube, }
+\item[{}]{ns, }
+\item[{}]{angle = {\ttfamily 15}, }
+\item[{}]{npca = {\ttfamily 64}}
+\end{DoxyParamCaption}
+)}\label{namespace_m2_c_a_d_1_1_m_c_a_a0f9be8aba58fe7d82c24e7a6d45994d4}
+\begin{DoxyVerb}  Estimates the mixing matrix of of two sources in a multi band set of images
+
+  INPUTS:
+      cube: multi-band cube from which to extract mixing coefficients
+      ns: number of mixed sources
+
+  OUTPUTS:
+      A0: mixing matrix
+
+  OPTIONS:
+      angle: sensitivity parameter. The angular resolution at which the algorithm has to look for PCA coefficients clustering
+      npca: square root of the number of pixels to be used. Since too big images result in too big computation time
+      we propose to downsample the image in order to get reasonable calculation time
+
+  EXAMPLES
+\end{DoxyVerb}
+ 

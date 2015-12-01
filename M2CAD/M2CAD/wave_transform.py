@@ -1,22 +1,27 @@
+"""@package M2CAD
+
+"""
+
 import numpy as np
 import scipy.signal as cp
 import matplotlib.pyplot as plt
 import scipy.ndimage.filters as sc
 
-
-def symmetrise(img, size):
-
-    n3, n4 = np.shape(img)
-    n1,n2 = size
-    img[:(n3-n1)/2, :] = np.flipud(img[(n3-n1)/2:(n3-n1),:])
-    img[:,:(n4-n2)/2] = np.fliplr(img[:,(n4-n2)/2:(n4-n2)])
-    img[(n3+n1)/2:,:] = np.flipud(img[n1:(n3+n1)/2,:])
-    img[:,(n4+n2)/2:] = np.fliplr(img[:,n2:(n4+n2)/2])
-
-    return img
     
 def wave_transform(img, lvl, Filter = 'Bspline', newwave = 1, convol2d = 0):
-
+    """
+    Performs starlet decomposition of an image
+    INPUTS:
+        img: image with size n1xn2 to be decomposed.
+        lvl: number of wavelet levels used in the decomposition.
+    OUTPUTS:
+        wave: starlet decomposition returned as lvlxn1xn2 cube.
+    OPTIONS:
+        Filter: if set to 'Bspline', a bicubic spline filter is used (default is True).
+        newave: if set to True, the new generation starlet decomposition is used (default is True).
+        convol2d: if set, a 2D version of the filter is used (slower, default is 0).
+        
+    """
     mode = 'nearest'
     
     lvl = lvl-1
@@ -89,6 +94,16 @@ def wave_transform(img, lvl, Filter = 'Bspline', newwave = 1, convol2d = 0):
     return wave
 
 def iuwt(wave, convol2d =0):
+    """
+    Inverse Starlet transform.
+    INPUTS:
+        wave: wavelet decomposition of an image.
+    OUTPUTS:
+        out: image reconstructed from wavelet coefficients
+    OPTIONS:
+        convol2d:  if set, a 2D version of the filter is used (slower, default is 0)
+        
+    """
     mode = 'nearest'
     
     lvl,n1,n2 = np.shape(wave)
@@ -114,5 +129,6 @@ def iuwt(wave, convol2d =0):
 
         cJ = cnew+wave[lvl-1-i,:,:]
 
-    return np.reshape(cJ,(n1,n2))
+    out = np.reshape(cJ,(n1,n2))
+    return out
     

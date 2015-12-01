@@ -1,3 +1,8 @@
+"""@package M2CAD
+
+
+"""
+
 import numpy as np
 import mk_pca as mk
 #import k_means as km
@@ -8,30 +13,19 @@ import matplotlib.cm as cm
 import pyfits as pf
 import MCA
 
-def pca_ring_spectrum(images, std = [0,0]):
-    #Goals:
-    #Performs PCA ont the spectrum of each pixel in a cube of a n1xn2 image taken
-    #in Ns wavelength and identifies clusters of PCA coefficients in
-    #a given dimensional space.
-    #
-    #Inputs:
-    #   images: cube of images in different wavelength of size n1xn2xNs
-    #
-    #   ndim: number of dimensions to be considered for clustering
-    #
-    #   nclus: expected number of clusters (it is advised to set an overestimated
-    #          value
-    #
-    #Outputs:
-    #   alpha: PCA coefficients of the decomposition
-    #
-    #   base: PCA basis of the decomposition
-    #
-    #   clus: number of the cluster to which each set of coefficients belongs to
-    #
-    #   avg: centroids of the clusters
-    #
-    #   final_clus: number of clusters identified
+def pca_ring_spectrum(images):
+    """
+    Decomposes a set of SEDs from multiband images into PCA and filters the less significant coefficients
+    INPUTS:
+        images: cube of muti-bandimages with size n1xn2xs where s is the number of bands and n1xn2, the size of each image
+    OUTPUTS:
+        alphas: PCA coefficients for each SED at each pixel location. 
+        basis: corresponding PCA basis.
+        sig: noise as propagated into PCA space.
+
+
+    EXAMPLE:
+    """
 
     pad = 0
     images = images.T
@@ -88,30 +82,43 @@ def pca_ring_spectrum(images, std = [0,0]):
     return alphas, base, sig
 
 def actg(X,Y):
+    """
+    Computes the arctan(x/y) of two vectors. 
+    INPUTS:
+        X: 1-d vector
+        Y: 1-d vector
+    OUTPUTS:
+        angle: 1-d vector with the result of arctan(X/Y)
+
+    EXAMPLE:
+    """
         
-        if X >0 and Y>=0:
-            angle = np.arctan(Y/X)
-        if X >0 and Y<0:
-            angle = np.arctan(Y/X)+2*np.pi
-        if X<0:
-            angle = np.arctan(Y/X)+np.pi
-        if X ==0 and Y>0:
-            angle = np.pi/2
-        if X ==0 and Y<=0:
-            angle = 3*np.pi/2
-        return angle
-    
+    if X >0 and Y>=0:
+        angle = np.arctan(Y/X)
+    if X >0 and Y<0:
+        angle = np.arctan(Y/X)+2*np.pi
+    if X<0:
+        angle = np.arctan(Y/X)+np.pi
+    if X ==0 and Y>0:
+        angle = np.pi/2
+    if X ==0 and Y<=0:
+        angle = 3*np.pi/2
+    return angle
+
 
 def pca_lines(alphas, sig, dt, ns):
-    #
-    #Identifies alignements of coefficients
-    #INPUTS:
-    #   alphas: PCA coefficients
-    #   coeffs: coefficients thought to be proportional
-    #
-    #OUTPUTS:
-    #   Images: image containing locations identified as belonging to a band with a given value
-    #
+    """
+    Finds alignments in PCA coefficients and identifies corresponding structures in direct space. It is actually a simple angular clustering algorithm.
+    INPUTS:
+        alphas: PCA coefficients.
+        sig: noise levels in the two first PCA components
+        dt: angular resolution at which the algorithm has to discriminate between coefficients of a same group
+        ns: number of alignments to identify.
+    OUTPUTS:
+        images: 2-d map of strucutres with same colours. Each structure has all its pixels set to the same value.
+        Pixels identified as non-significant are set to 0.
+    EXAMPLE:
+    """
     dt = dt*np.pi/180
     n1,n2 = np.shape(alphas)
 

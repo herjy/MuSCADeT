@@ -1,0 +1,53 @@
+\hypertarget{namespace_m2_c_a_d_1_1mk__pca}{}\section{M2\+C\+A\+D.\+mk\+\_\+pca Namespace Reference}
+\label{namespace_m2_c_a_d_1_1mk__pca}\index{M2\+C\+A\+D.\+mk\+\_\+pca@{M2\+C\+A\+D.\+mk\+\_\+pca}}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+def \hyperlink{namespace_m2_c_a_d_1_1mk__pca_abb3d496bf48b739ac4726d25242b85d4}{mk\+\_\+pca}
+\item 
+def \hyperlink{namespace_m2_c_a_d_1_1mk__pca_abc53cb1e458fc6cc11fd1a6313f4dbc1}{rec\+\_\+pca}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\begin{DoxyVerb}@package M2CAD\end{DoxyVerb}
+ 
+
+\subsection{Function Documentation}
+\hypertarget{namespace_m2_c_a_d_1_1mk__pca_abb3d496bf48b739ac4726d25242b85d4}{}\index{M2\+C\+A\+D\+::mk\+\_\+pca@{M2\+C\+A\+D\+::mk\+\_\+pca}!mk\+\_\+pca@{mk\+\_\+pca}}
+\index{mk\+\_\+pca@{mk\+\_\+pca}!M2\+C\+A\+D\+::mk\+\_\+pca@{M2\+C\+A\+D\+::mk\+\_\+pca}}
+\subsubsection[{mk\+\_\+pca}]{\setlength{\rightskip}{0pt plus 5cm}def M2\+C\+A\+D.\+mk\+\_\+pca.\+mk\+\_\+pca (
+\begin{DoxyParamCaption}
+\item[{}]{vectors, }
+\item[{}]{dec = {\ttfamily 0}}
+\end{DoxyParamCaption}
+)}\label{namespace_m2_c_a_d_1_1mk__pca_abb3d496bf48b739ac4726d25242b85d4}
+\begin{DoxyVerb}Perfoms Principal Component Analysis of a set of vectors
+INPUTS:
+    vectors: Set of vectors to be decomposed through PCA.
+OUTPUTS:
+    alpha: PCA coefficients resulting of the decomposition of the vectors.
+    EN_2: PCA basis set.
+OPTIONS:
+    dec: if non zero, dec is used as a PCA basis to decompose the vectors. In this case,
+    a simple projection is thus conducted instead of the PCA.
+\end{DoxyVerb}
+ \hypertarget{namespace_m2_c_a_d_1_1mk__pca_abc53cb1e458fc6cc11fd1a6313f4dbc1}{}\index{M2\+C\+A\+D\+::mk\+\_\+pca@{M2\+C\+A\+D\+::mk\+\_\+pca}!rec\+\_\+pca@{rec\+\_\+pca}}
+\index{rec\+\_\+pca@{rec\+\_\+pca}!M2\+C\+A\+D\+::mk\+\_\+pca@{M2\+C\+A\+D\+::mk\+\_\+pca}}
+\subsubsection[{rec\+\_\+pca}]{\setlength{\rightskip}{0pt plus 5cm}def M2\+C\+A\+D.\+mk\+\_\+pca.\+rec\+\_\+pca (
+\begin{DoxyParamCaption}
+\item[{}]{alpha, }
+\item[{}]{base, }
+\item[{}]{lim = {\ttfamily 0}}
+\end{DoxyParamCaption}
+)}\label{namespace_m2_c_a_d_1_1mk__pca_abc53cb1e458fc6cc11fd1a6313f4dbc1}
+\begin{DoxyVerb}Reconstructs a signal in direct space from its PCA coefficients and the basis over which it has been decomposed.
+INPUTS:
+    alpha: sets of PCA coefficients.
+    basis: the basis over which the signal has been decomposed.
+OUTPUTS:
+    rec: reconstructed signal
+OPTIONS:
+    lim: if lim is set to non-zero value, lim is maximal number of coefficients used in the reconstruction.
+\end{DoxyVerb}
+ 

@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.15 (TeX Live 2014) (preloaded format=pdflatex 2014.12.3)  30 NOV 2015 15:35
+This is pdfTeX, Version 3.14159265-2.6-1.40.15 (TeX Live 2014) (preloaded format=pdflatex 2014.12.3)  1 DEC 2015 11:59
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1051,31 +1051,285 @@ LaTeX Font Info:    Font shape `T1/phv/bc/n' will be
 ]
 Package hyperref Info: Option `pageanchor' set `true' on input line 138.
 
+Chapter 1.
+LaTeX Font Info:    Font shape `T1/phv/m/n' will be
+(Font)              scaled to size 18.66588pt on input line 141.
+LaTeX Font Info:    Font shape `T1/phv/bx/n' in size <20.74> not available
+(Font)              Font shape `T1/phv/b/n' tried instead on input line 141.
+LaTeX Font Info:    Font shape `T1/phv/b/n' will be
+(Font)              scaled to size 18.66588pt on input line 141.
+LaTeX Font Info:    Font shape `T1/phv/bc/n' will be
+(Font)              scaled to size 18.66588pt on input line 141.
+(./namespaces.tex
+LaTeX Font Info:    Font shape `T1/phv/bx/n' in size <14.4> not available
+(Font)              Font shape `T1/phv/b/n' tried instead on input line 1.
+LaTeX Font Info:    Font shape `T1/phv/b/n' will be
+(Font)              scaled to size 12.9599pt on input line 1.
+LaTeX Font Info:    Font shape `T1/phv/bc/n' will be
+(Font)              scaled to size 12.9599pt on input line 1.
+LaTeX Font Info:    Font shape `T1/phv/bx/n' in size <10> not available
+(Font)              Font shape `T1/phv/b/n' tried instead on input line 3.
+LaTeX Font Info:    Font shape `T1/phv/b/n' will be
+(Font)              scaled to size 8.99994pt on input line 3.
+
+
+LaTeX Warning: Reference `namespace_m2_c_a_d_1_1colour__subtraction' on page 1 
+undefined on input line 3.
+
+
+LaTeX Warning: Reference `namespace_m2_c_a_d_1_1_m_c_a' on page 1 undefined on 
+input line 4.
+
+
+LaTeX Warning: Reference `namespace_m2_c_a_d_1_1mk__pca' on page 1 undefined on
+ input line 5.
+
+
+LaTeX Warning: Reference `namespace_m2_c_a_d_1_1pca__ring__spectrum' on page 1 
+undefined on input line 6.
+
+
+LaTeX Warning: Reference `namespace_m2_c_a_d_1_1wave__transform' on page 1 unde
+fined on input line 7.
+
+) [1
+
+]
+LaTeX Font Info:    Font shape `T1/phv/bx/n' in size <7> not available
+(Font)              Font shape `T1/phv/b/n' tried instead on input line 143.
+LaTeX Font Info:    Font shape `T1/phv/b/n' will be
+(Font)              scaled to size 6.29996pt on input line 143.
+ [2
+
+]
+Chapter 2.
+(./namespace_m2_c_a_d_1_1colour__subtraction.tex
+LaTeX Font Info:    Font shape `T1/phv/bc/n' will be
+(Font)              scaled to size 6.29996pt on input line 1.
+LaTeX Font Info:    Font shape `T1/phv/bx/n' in size <12> not available
+(Font)              Font shape `T1/phv/b/n' tried instead on input line 3.
+LaTeX Font Info:    Font shape `T1/phv/b/n' will be
+(Font)              scaled to size 10.79993pt on input line 3.
+LaTeX Font Info:    Font shape `T1/phv/bc/n' will be
+(Font)              scaled to size 10.79993pt on input line 3.
+LaTeX Font Info:    Try loading font information for TS1+phv on input line 6.
+
+(/usr/local/texlive/2014/texmf-dist/tex/latex/psnfss/ts1phv.fd
+File: ts1phv.fd 2001/06/04 scalable font definitions for TS1/phv.
+)
+LaTeX Font Info:    Font shape `TS1/phv/m/n' will be
+(Font)              scaled to size 8.99994pt on input line 6.
+LaTeX Font Info:    Font shape `T1/phv/m/it' in size <9> not available
+(Font)              Font shape `T1/phv/m/sl' tried instead on input line 12.
+LaTeX Font Info:    Font shape `T1/phv/m/sl' will be
+(Font)              scaled to size 8.09995pt on input line 12.
+LaTeX Font Info:    Font shape `T1/phv/m/it' in size <7> not available
+(Font)              Font shape `T1/phv/m/sl' tried instead on input line 12.
+LaTeX Font Info:    Font shape `T1/phv/m/sl' will be
+(Font)              scaled to size 6.29996pt on input line 12.
+LaTeX Font Info:    Font shape `T1/phv/m/n' will be
+(Font)              scaled to size 7.19995pt on input line 61.
+LaTeX Font Info:    Try loading font information for T1+pcr on input line 61.
+
+(/usr/local/texlive/2014/texmf-dist/tex/latex/psnfss/t1pcr.fd
+File: t1pcr.fd 2001/06/04 font definitions for T1/pcr.
+)
+LaTeX Font Info:    Font shape `T1/phv/bc/n' will be
+(Font)              scaled to size 8.99994pt on input line 76.
+LaTeX Font Info:    Font shape `T1/phv/bc/it' in size <10> not available
+(Font)              Font shape `T1/phv/bc/sl' tried instead on input line 76.
+LaTeX Font Info:    Font shape `T1/phv/bc/sl' will be
+(Font)              scaled to size 8.99994pt on input line 76.
+
+
+LaTeX Font Warning: Font shape `T1/pcr/bc/it' undefined
+(Font)              using `T1/pcr/m/n' instead on input line 76.
+
+LaTeX Font Info:    Try loading font information for TS1+pcr on input line 76.
+(/usr/local/texlive/2014/texmf-dist/tex/latex/psnfss/ts1pcr.fd
+File: ts1pcr.fd 2001/06/04 font definitions for TS1/pcr.
+)
+
+LaTeX Font Warning: Font shape `TS1/pcr/bc/it' undefined
+(Font)              using `TS1/pcr/m/n' instead
+(Font)              for symbol `textquotesingle' on input line 76.
+
+
+Overfull \hbox (106.35625pt too wide) in paragraph at lines 77--77
+[] \T1/pcr/m/n/8 Creates colour images and visualisation of the residuals of th
+e separation of estimated sources from a colour image. 
+ []
+
+[3]
+Overfull \hbox (34.3562pt too wide) in paragraph at lines 82--82
+[]    \T1/pcr/m/n/8 suffixe: string that will be added at the end of the names 
+of the png files showing the residuals.[] 
+ []
+
+) (./namespace_m2_c_a_d_1_1_m_c_a.tex [4]
+LaTeX Font Info:    Font shape `T1/phv/bc/it' in size <7> not available
+(Font)              Font shape `T1/phv/bc/sl' tried instead on input line 134.
+LaTeX Font Info:    Font shape `T1/phv/bc/sl' will be
+(Font)              scaled to size 6.29996pt on input line 134.
+
+Overfull \hbox (19.95619pt too wide) in paragraph at lines 141--141
+[]      \T1/pcr/m/n/8 kmax: detection threshold in units of noise standard devi
+ation usually chosen between 3 and 5[] 
+ []
+
+[5]
+Overfull \hbox (29.5562pt too wide) in paragraph at lines 149--149
+[]      \T1/pcr/m/n/8 mode: if set to 'PCA', the mixing matrix A will be estima
+ted from PCA decomposition of the SEDs[] 
+ []
+
+
+Overfull \hbox (34.3562pt too wide) in paragraph at lines 150--150
+[]      \T1/pcr/m/n/8 PCA: parameters for PCA sensitivity. if mode is set to 'P
+CA', the PCA estimator will take PCA[0][] 
+ []
+
+
+Overfull \hbox (34.3562pt too wide) in paragraph at lines 151--151
+[]\T1/pcr/m/n/8 as the number of sources to be extracted and PCA[1] as a sensit
+ivity parameter to discriminate between[] 
+ []
+
+
+Overfull \hbox (29.5562pt too wide) in paragraph at lines 154--154
+[]      \T1/pcr/m/n/8 pos: if set to True, the output of the hard thresholding 
+procedure is constrined to be positive[] 
+ []
+
+
+Overfull \hbox (96.75624pt too wide) in paragraph at lines 155--155
+[]      \T1/pcr/m/n/8 threshmode: if set to 'mom', adaptive method of moments i
+s used at every iteration to decrease the  threshold[] 
+ []
+
+
+Overfull \hbox (43.9562pt too wide) in paragraph at lines 216--216
+[]      \T1/pcr/m/n/8 harder: if set to one, threshold levels are risen. This i
+s used to compensate for correlated noise[] 
+ []
+
+
+Overfull \hbox (168.75629pt too wide) in paragraph at lines 219--219
+[]      \T1/pcr/m/n/8 subweight: weight map derived from other sources applied 
+to diminish the impact of a given set of coefficient (default is 0)[] 
+ []
+
+
+Overfull \hbox (77.55623pt too wide) in paragraph at lines 220--220
+[]      \T1/pcr/m/n/8 addweight: weight map used to enhance previously detected
+ features in an iterative process (default is 0)[] 
+ []
+
+[6]
+Overfull \hbox (144.75627pt too wide) in paragraph at lines 245--245
+[]      \T1/pcr/m/n/8 angle: sensitivity parameter. The angular resolution at w
+hich the algorithm has to look for PCA coefficients clustering[] 
+ []
+
+
+Overfull \hbox (96.75624pt too wide) in paragraph at lines 246--246
+[]      \T1/pcr/m/n/8 npca: square root of the number of pixels to be used. Sin
+ce too big images result in too big computation time[] 
+ []
+
+) (./namespace_m2_c_a_d_1_1mk__pca.tex
+Overfull \hbox (82.35623pt too wide) in paragraph at lines 44--44
+[]\T1/pcr/m/n/8 Reconstructs a signal in direct space from its PCA coefficients
+ and the basis over which it has been decomposed. 
+ []
+
+
+Overfull \hbox (58.35622pt too wide) in paragraph at lines 51--51
+[]    \T1/pcr/m/n/8 lim: if lim is set to non-zero value, lim is maximal number
+ of coefficients used in the reconstruction.[] 
+ []
+
+) (./namespace_m2_c_a_d_1_1pca__ring__spectrum.tex [7]
+Overfull \hbox (250.35634pt too wide) in paragraph at lines 91--91
+[]\T1/pcr/m/n/8 Finds alignments in PCA coefficients and identifies correspondi
+ng structures in direct space. It is actually a simple angular clustering algor
+ithm. 
+ []
+
+
+Overfull \hbox (53.55621pt too wide) in paragraph at lines 95--95
+[]    \T1/pcr/m/n/8 dt: angular resolution at which the algorithm has to discri
+minate between coefficients of a same group[] 
+ []
+
+
+Overfull \hbox (67.95622pt too wide) in paragraph at lines 98--98
+[]    \T1/pcr/m/n/8 images: 2-d map of strucutres with same colours. Each struc
+ture has all its pixels set to the same value.[] 
+ []
+
+
+Overfull \hbox (29.5562pt too wide) in paragraph at lines 109--109
+[]\T1/pcr/m/n/8 Decomposes a set of SEDs from multiband images into PCA and fil
+ters the less significant coefficients 
+ []
+
+
+Overfull \hbox (111.15625pt too wide) in paragraph at lines 111--111
+[]    \T1/pcr/m/n/8 images: cube of muti-bandimages with size n1xn2xs where s i
+s the number of bands and n1xn2, the size of each image[] 
+ []
+
+[8]) (./namespace_m2_c_a_d_1_1wave__transform.tex) [9] [10
+
+]
 No file refman.ind.
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 151.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 151.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 159.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 159.
 (./refman.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 151.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 151.
-Package rerunfilecheck Info: File `refman.out' has not changed.
-(rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 151.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 159.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 159.
+
+
+Package rerunfilecheck Warning: File `refman.out' has changed.
+(rerunfilecheck)                Rerun to get outlines right
+(rerunfilecheck)                or use package `bookmark'.
+
+Package rerunfilecheck Info: Checksums for `refman.out':
+(rerunfilecheck)             Before: D41D8CD98F00B204E9800998ECF8427E;0
+(rerunfilecheck)             After:  92B064220A11A8B8EBB825CF5064C4B1;6993.
+
+LaTeX Font Warning: Some font shapes were not available, defaults substituted.
+
+
+LaTeX Warning: There were undefined references.
+
+
+LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
+
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 159.
  ) 
 Here is how much of TeX's memory you used:
- 12831 strings out of 493117
- 178411 string characters out of 6135433
- 262362 words of memory out of 5000000
- 16097 multiletter control sequences out of 15000+600000
- 24364 words of font info for 35 fonts, out of 8000000 for 9000
+ 13169 strings out of 493117
+ 190571 string characters out of 6135433
+ 273360 words of memory out of 5000000
+ 16272 multiletter control sequences out of 15000+600000
+ 63745 words of font info for 69 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 48i,11n,43p,280b,357s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 48i,15n,43p,1060b,518s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/local/texlive/2014/texmf-dist/fonts/enc/dvips/base/8r.enc}</usr/local/t
-exlive/2014/texmf-dist/fonts/type1/urw/helvetic/uhvb8ac.pfb></usr/local/texlive
-/2014/texmf-dist/fonts/type1/urw/helvetic/uhvr8a.pfb>
-Output written on refman.pdf (4 pages, 13974 bytes).
+exlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/local/te
+xlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/tex
+live/2014/texmf-dist/fonts/type1/urw/courier/ucrr8a.pfb></usr/local/texlive/201
+4/texmf-dist/fonts/type1/urw/helvetic/uhvb8a.pfb></usr/local/texlive/2014/texmf
+-dist/fonts/type1/urw/helvetic/uhvb8ac.pfb></usr/local/texlive/2014/texmf-dist/
+fonts/type1/urw/helvetic/uhvbo8ac.pfb></usr/local/texlive/2014/texmf-dist/fonts
+/type1/urw/helvetic/uhvr8a.pfb></usr/local/texlive/2014/texmf-dist/fonts/type1/
+urw/helvetic/uhvro8a.pfb>
+Output written on refman.pdf (14 pages, 100899 bytes).
 PDF statistics:
- 31 PDF objects out of 1000 (max. 8388607)
- 22 compressed objects within 1 object stream
- 2 named destinations out of 1000 (max. 500000)
+ 262 PDF objects out of 1000 (max. 8388607)
+ 235 compressed objects within 3 object streams
+ 124 named destinations out of 1000 (max. 500000)
  1 words of extra memory for PDF output out of 10000 (max. 10000000)
 

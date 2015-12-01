@@ -1,0 +1,63 @@
+.TH "M2CAD.wave_transform" 3 "Tue Dec 1 2015" "Version 1.0" "M2CAD" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+M2CAD.wave_transform \- 
+.SH SYNOPSIS
+.br
+.PP
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "def \fBwave_transform\fP"
+.br
+.ti -1c
+.RI "def \fBiuwt\fP"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+
+.PP
+.nf
+@package M2CAD
+.fi
+.PP
+ 
+.SH "Function Documentation"
+.PP 
+.SS "def M2CAD\&.wave_transform\&.iuwt ( wave,  convol2d = \fC0\fP)"
+
+.PP
+.nf
+Inverse Starlet transform.
+INPUTS:
+    wave: wavelet decomposition of an image.
+OUTPUTS:
+    out: image reconstructed from wavelet coefficients
+OPTIONS:
+    convol2d:  if set, a 2D version of the filter is used (slower, default is 0)
+.fi
+.PP
+ 
+.SS "def M2CAD\&.wave_transform\&.wave_transform ( img,  lvl,  Filter = \fC'Bspline'\fP,  newwave = \fC1\fP,  convol2d = \fC0\fP)"
+
+.PP
+.nf
+Performs starlet decomposition of an image
+INPUTS:
+    img: image with size n1xn2 to be decomposed.
+    lvl: number of wavelet levels used in the decomposition.
+OUTPUTS:
+    wave: starlet decomposition returned as lvlxn1xn2 cube.
+OPTIONS:
+    Filter: if set to 'Bspline', a bicubic spline filter is used (default is True).
+    newave: if set to True, the new generation starlet decomposition is used (default is True).
+    convol2d: if set, a 2D version of the filter is used (slower, default is 0).
+.fi
+.PP
+ 
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for M2CAD from the source code\&.
