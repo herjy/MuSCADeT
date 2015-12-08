@@ -1,0 +1,53 @@
+\hypertarget{namespace_mu_s_c_a_de_t_1_1wave__transform}{}\section{Mu\+S\+C\+A\+De\+T.\+wave\+\_\+transform Namespace Reference}
+\label{namespace_mu_s_c_a_de_t_1_1wave__transform}\index{Mu\+S\+C\+A\+De\+T.\+wave\+\_\+transform@{Mu\+S\+C\+A\+De\+T.\+wave\+\_\+transform}}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+def \hyperlink{namespace_mu_s_c_a_de_t_1_1wave__transform_aecbeb9f6283ed3791a0cdd3e59cbb3e4}{wave\+\_\+transform}
+\item 
+def \hyperlink{namespace_mu_s_c_a_de_t_1_1wave__transform_a702a8ff3f2dbc3a21d8ca07c2f916a33}{iuwt}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\begin{DoxyVerb}@package MuSCADeT\end{DoxyVerb}
+ 
+
+\subsection{Function Documentation}
+\hypertarget{namespace_mu_s_c_a_de_t_1_1wave__transform_a702a8ff3f2dbc3a21d8ca07c2f916a33}{}\index{Mu\+S\+C\+A\+De\+T\+::wave\+\_\+transform@{Mu\+S\+C\+A\+De\+T\+::wave\+\_\+transform}!iuwt@{iuwt}}
+\index{iuwt@{iuwt}!Mu\+S\+C\+A\+De\+T\+::wave\+\_\+transform@{Mu\+S\+C\+A\+De\+T\+::wave\+\_\+transform}}
+\subsubsection[{iuwt}]{\setlength{\rightskip}{0pt plus 5cm}def Mu\+S\+C\+A\+De\+T.\+wave\+\_\+transform.\+iuwt (
+\begin{DoxyParamCaption}
+\item[{}]{wave, }
+\item[{}]{convol2d = {\ttfamily 0}}
+\end{DoxyParamCaption}
+)}\label{namespace_mu_s_c_a_de_t_1_1wave__transform_a702a8ff3f2dbc3a21d8ca07c2f916a33}
+\begin{DoxyVerb}Inverse Starlet transform.
+INPUTS:
+    wave: wavelet decomposition of an image.
+OUTPUTS:
+    out: image reconstructed from wavelet coefficients
+OPTIONS:
+    convol2d:  if set, a 2D version of the filter is used (slower, default is 0)\end{DoxyVerb}
+ \hypertarget{namespace_mu_s_c_a_de_t_1_1wave__transform_aecbeb9f6283ed3791a0cdd3e59cbb3e4}{}\index{Mu\+S\+C\+A\+De\+T\+::wave\+\_\+transform@{Mu\+S\+C\+A\+De\+T\+::wave\+\_\+transform}!wave\+\_\+transform@{wave\+\_\+transform}}
+\index{wave\+\_\+transform@{wave\+\_\+transform}!Mu\+S\+C\+A\+De\+T\+::wave\+\_\+transform@{Mu\+S\+C\+A\+De\+T\+::wave\+\_\+transform}}
+\subsubsection[{wave\+\_\+transform}]{\setlength{\rightskip}{0pt plus 5cm}def Mu\+S\+C\+A\+De\+T.\+wave\+\_\+transform.\+wave\+\_\+transform (
+\begin{DoxyParamCaption}
+\item[{}]{img, }
+\item[{}]{lvl, }
+\item[{}]{Filter = {\ttfamily \textquotesingle{}Bspline\textquotesingle{}}, }
+\item[{}]{newwave = {\ttfamily 1}, }
+\item[{}]{convol2d = {\ttfamily 0}}
+\end{DoxyParamCaption}
+)}\label{namespace_mu_s_c_a_de_t_1_1wave__transform_aecbeb9f6283ed3791a0cdd3e59cbb3e4}
+\begin{DoxyVerb}Performs starlet decomposition of an image
+INPUTS:
+    img: image with size n1xn2 to be decomposed.
+    lvl: number of wavelet levels used in the decomposition.
+OUTPUTS:
+    wave: starlet decomposition returned as lvlxn1xn2 cube.
+OPTIONS:
+    Filter: if set to 'Bspline', a bicubic spline filter is used (default is True).
+    newave: if set to True, the new generation starlet decomposition is used (default is True).
+    convol2d: if set, a 2D version of the filter is used (slower, default is 0).\end{DoxyVerb}
+ 
