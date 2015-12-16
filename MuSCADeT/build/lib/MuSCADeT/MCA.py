@@ -236,6 +236,23 @@ def MOM(R,sigma,lvl = 6):
                 
     k = np.min(wmax)+(max(wmax)-min(wmax))/100
     return k
+
+def MM(R,sigma,lvl = 6):
+    n1,n2 = np.shape(R)
+    
+    noisetab = np.array([ 0.8907963 ,  0.20066385,  0.08550751,  0.04121745,  0.02042497,
+                         0.01018976,  0.00504662,  0.00368314])
+        
+    wm = np.zeros((lvl))
+    w = np.zeros((lvl,n1,n2))
+                         
+    w[:,:,:] = mw.wave_transform(R,lvl)
+    for l in np.linspace(0,lvl-2,lvl-1):
+        wm[l] = np.max(np.abs(w[l,:,:]))/noisetab[l]
+    wmax = wmax/sigma
+
+    k = np.min(wmax)-(wmax)/100
+    return k
     
 
 def MAD(x):
