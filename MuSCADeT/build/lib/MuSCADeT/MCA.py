@@ -139,36 +139,10 @@ source. Values betwee 5 and 30 are usually recommended
                             thmap[s,:lvl-1,:,:] = (wmap[s-1,:lvl-1,:,:]) 
             
             for j in np.linspace(0, ns-1, ns):
-####################test
-                    if 1:
-                        
-                                          
-                    
-                        if reweighting== 'pen':#'pen sub':# or 'pen frac' or 'all':
-                            print('zizi')
-                            reweight = (thmap[j,:,:,:])*sigma[j]/sigma[j-1]#/sigma[j-1])
-                        if reweighting == 'sub':# or 'pen sub': #or 'sub frac' or 'all':
-                       
-                            sub = (thmap[j-1,:,:,:])*sigma[j-1]/sigma[j]#/sigma[j])
-                        if reweighting == 'frac':# or 'pen frac' or 'sub frac' or 'all':
-
-                            weight2 = 1/(np.abs(thmap[j-1,:,:,:]/sigma[j])+0.00001)#
-                        if reweighting == 'pen sub':
-                        
-                              sub = (thmap[j-1,:,:,:])*sigma[j-1]/sigma[j]
-                              reweight = (thmap[j,:,:,:])
-                        if reweighting == 'sub frac':
-                            sub = (thmap[j-1,:,:,:])*sigma[j-1]/sigma[j]
-                            weight2 = 1/(np.abs(thmap[j-1,:,:,:]/sigma[j])+0.00001)
-
-                        if reweighting == 'pen frac':
-                            reweight = (thmap[j,:,:,:])*sigma[j]/sigma[j-1]
-                            weight2 = 1/(np.abs(thmap[j-1,:,:,:]/sigma[j])+0.00001)
 
                     kthr = np.max([kmax, k])
                         
-
-                    Sj,wmap[j,:,:,:] = mr_filter(np.reshape(S[j,:],(n1,n2)),10,kthr,sigma[j],harder = harder, subweight = sub, mulweight = weight2,addweight = reweight, weightmode = wmode, lvl = lvl,pos = pos,soft = soft)
+                    Sj,wmap[j,:,:,:] = mr_filter(np.reshape(S[j,:],(n1,n2)),10,kthr,sigma[j],harder = harder, lvl = lvl,pos = pos,soft = soft)
                     S[j,:] = np.reshape(Sj,(n1*n2))           
 
           
