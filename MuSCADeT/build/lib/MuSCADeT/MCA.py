@@ -60,10 +60,8 @@ source. Values betwee 5 and 30 are usually recommended
     nb,ns = np.shape(A)
 
     
-    if grad == False:
-        AT = np.dot(np.linalg.inv(np.dot(A.T,A)),A.T)/np.sum(np.linalg.inv(np.dot(A.T,A)))
-    else:
-        AT = A.T
+
+    AT = A.T
 
     
 
@@ -108,14 +106,11 @@ source. Values betwee 5 and 30 are usually recommended
 
             
             Sp = S
-            if grad == False:
-                R = np.dot(AT,Y)
-                S=R
-            else:
+
             
-                R = mu*np.dot(AT, Y-np.dot(A,X))
-                X = np.real(X+R)
-                S = X
+            R = mu*np.dot(AT, Y-np.dot(A,X))
+            X = np.real(X+R)
+            S = X
         
             wmax = np.zeros((ns))
             wm = np.zeros((ns,lvl))
@@ -176,10 +171,8 @@ source. Values betwee 5 and 30 are usually recommended
                     Sj,wmap[j,:,:,:] = mr_filter(np.reshape(S[j,:],(n1,n2)),10,kthr,sigma[j],harder = harder, subweight = sub, mulweight = weight2,addweight = reweight, weightmode = wmode, lvl = lvl,pos = pos,soft = soft)
                     S[j,:] = np.reshape(Sj,(n1*n2))           
 
-            if grad == False:
-                X=X+S
-            else:
-                X=X
+          
+            X=X
             ks[i] = kthr
             k = k-step
         
