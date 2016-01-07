@@ -249,9 +249,9 @@ def MM(R,sigma,lvl = 6):
     w[:,:,:] = mw.wave_transform(R,lvl)
     for l in np.linspace(0,lvl-2,lvl-1):
         wm[l] = np.max(np.abs(w[l,:,:]))/noisetab[l]
-    wmax = wmax/sigma
+    wmax = np.max(wm)/sigma
 
-    k = np.min(wmax)-(wmax)/100
+    k = (wmax)-(wmax)/100
     return k
     
 

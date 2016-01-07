@@ -166,4 +166,4 @@ def make_colour_sub(Sfile,Afile,Xfile,suffixe,prefix = './', cuts = ['0','0.1','
 ##    Chi = np.sum(serr/sigma_y[::-1]**2)/(nb)
 ##    print(Chi)
     
-    return 0
+    return Subred, Subblue
