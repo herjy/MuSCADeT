@@ -131,7 +131,7 @@ source. Values betwee 5 and 30 are usually recommended
                     if threshmom <k:
                             k = threshmom
                             step = ((k-kmax)/(niter-i-6))
-                            print('momy s threshold',threshmom)
+                            print('threshold from MOM',threshmom)
 
             if reweighting != 'none':
                     for s in np.linspace(0,ns-1,ns):
