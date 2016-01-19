@@ -13,7 +13,7 @@ import matplotlib.cm as cm
 import pyfits as pf
 import MCA
 
-def pca_ring_spectrum(images):
+def pca_ring_spectrum(images, std = 0):
     """
     Decomposes a set of SEDs from multiband images into PCA and filters the less significant coefficients
     INPUTS:

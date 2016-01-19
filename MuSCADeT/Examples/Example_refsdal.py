@@ -21,7 +21,7 @@ ns = 2          #Number of sources
 angle = 50      #Resolution angle for the PCA colour estimation (start with 15 then adjust empirically)
 
 ## Running MuSCADeT
-S,A,Chi = MCA.mMCA(cube, Aprior, nsig,n, PCA=[ns,angle], mode=pca, harder = 1)
+S,A = MCA.mMCA(cube, Aprior, nsig,n, PCA=[ns,angle], mode=pca, harder = 1)
 
 
 for i in [1]:

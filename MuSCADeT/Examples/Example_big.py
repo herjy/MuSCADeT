@@ -21,7 +21,7 @@ ns = 2          #Number of sources
 angle = 5      #Resolution angle for the PCA colour estimation (start with 15 then adjust empirically)
 
 ## Running MuSCADeT
-S,A,Chi = MCA.mMCA(cube, Aprior.T, nsig,n, PCA=[ns,angle], mode=pca)
+S,A = MCA.mMCA(cube, Aprior.T, nsig,n, PCA=[ns,angle], mode=pca)
 
 hdus = pf.PrimaryHDU(S)
 lists = pf.HDUList([hdus])

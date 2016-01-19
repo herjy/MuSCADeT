@@ -47,17 +47,16 @@ source. Values betwee 5 and 30 are usually recommended
     n1,n2,nb = np.shape(img.T)
     
     if mode == 'PCA':
-        Apca = PCA_initialise(img.T, PCA[0], angle = PCA[1], mode = 'direct')       
+        Apca = PCA_initialise(img.T, PCA[0], angle = PCA[1])       
         Apca = np.multiply(Apca,[1./np.sum(Apca,0)])      
         A = Apca
-    else:
-        nbb,ns = np.shape(A)
 
+    nb,ns = np.shape(A)
     X = np.zeros((ns,n1*n2))
 
     
     A = np.multiply(A,[1./np.sum(A,0)])
-    nb,ns = np.shape(A)
+    
 
     
 
@@ -155,14 +154,6 @@ source. Values betwee 5 and 30 are usually recommended
     
         S[l,:,:] = np.reshape((X[l,:]),(n1,n2)).T
     plt.plot(ks); plt.show()
-    if chi2 == True:
-        sig = np.zeros((nb))
-        serr = sig+0
-        for i in np.linspace(0,nb-1,nb):
-            err = np.sum((img[i,:,:]-A[i,0]*S[0,:,:]-A[i,1]*S[1,:,:]))#**2/(n1*n2)
-            serr[i] = (err)**2
-        Chi = np.sum(serr/sigma_y**2)/nb
-#        print(Chi)
     
     return S,A
 
@@ -286,7 +277,7 @@ def mr_filter(img, niter, k, sigma,lvl = 6, pos = False, harder = 0,mulweight = 
     th[0,:,:] = th[0,0,0]+1+5*harder
     th[1,:,:] = th[1,:,:]+5*harder
     th[2,:,:] = th[2,:,:]+5*harder
- #   th[3,:,:] = th[3,:,:]+2*harder
+    th[3,:,:] = th[3,:,:]+2*harder
  #   th[4,:,:] = th[4,:,:]+5*harder
     
 ####################
