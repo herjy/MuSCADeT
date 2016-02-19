@@ -10,7 +10,7 @@ import matplotlib.colors as mc
 import subprocess as sp
 from MuSCADeT import MCA
 
-def make_colour_sub(Sfile,Afile,Xfile,suffixe,prefix = './', cuts = ['0','0.1','-0.002','0.06','-0.002','0.03']):
+def make_colour_sub(Sfile,Afile,Xfile,suffixe,prefix = './', cuts = ['0','0.1','-0.002','0.06','-0.002','0.03','0', '0.5']):
     """
      Creates colour images and visualisation of the residuals of the separation of estimated sources from a colour image.
      INPUTS:
@@ -81,32 +81,12 @@ def make_colour_sub(Sfile,Afile,Xfile,suffixe,prefix = './', cuts = ['0','0.1','
     name_S1 = prefix+'S1_'+suffixe+'.png'
     name_S2 = prefix+'S2_'+suffixe+'.png'
 
-    sp.call('ds9 '+Sfile+' -scale limits -0.1 1.5 -cube 1 -zoom to fit -colorbar no -saveimage png '+name_S1,stdout=sp.PIPE, shell = True)
-    sp.call('ds9 '+Sfile+' -scale limits -0.1 1.5 -cube 2 -zoom to fit -colorbar no -saveimage png '+name_S2,stdout=sp.PIPE, shell = True)
+##Cuts
+    inf = cuts[6]
+    maxi = cuts[7]
 
-
-##### Pour simu
-# Red levels
-##    infr = str(-0.1)
-##    maxr = str(0.6)
-### Blue levels
-##    infb = str(-0.02)
-##    maxb = str(0.1)
-### Green levels
-##
-##    infg = str(-0.05)
-##    maxg = str(0.3)
-
-##    # Red levels
-##    infr = str(0)
-##    maxr = str(0.015)
-### Blue levels
-##    infb = str(-0.01)
-##    maxb = str(0.02)
-### Green levels
-##
-##    infg = str(-0.005)
-##    maxg = str(0.015)
+    sp.call('ds9 '+Sfile+' -scale limits '+inf+' '+maxi+' -cube 1 -zoom to fit -colorbar no -saveimage png '+name_S1,stdout=sp.PIPE, shell = True)
+    sp.call('ds9 '+Sfile+' -scale limits '+inf+' '+maxi+' -cube 2 -zoom to fit -colorbar no -saveimage png '+name_S2,stdout=sp.PIPE, shell = True)
 
     ##Pour Refsdal
     ##    # Red levels
@@ -118,7 +98,6 @@ def make_colour_sub(Sfile,Afile,Xfile,suffixe,prefix = './', cuts = ['0','0.1','
 # Blue levels
     infb = cuts[4]
     maxb = cuts[5]
-
 
     ##Pour Refsdal
     ##    # Red levels
@@ -142,28 +121,5 @@ def make_colour_sub(Sfile,Afile,Xfile,suffixe,prefix = './', cuts = ['0','0.1','
     sp.call('ds9 -rgbcube '+prefix+'Red_residuals.fits -zoom to fit -colorbar no -rgb green -scale limits '+infg+' '+maxg+' -rgb red -scale limits '+infr+' '+maxr+' -rgb blue -scale limits '+infb+' '+maxb+' -saveimage png '+name_red,stdout=sp.PIPE, shell = True)
     sp.call('ds9 -rgbcube '+prefix+'Blue_residuals.fits -zoom to fit -colorbar no -rgb green -scale limits '+infg+' '+maxg+' -rgb red -scale limits '+infr+' '+maxr+' -rgb blue -scale limits '+infb+' '+maxb+' -saveimage png '+name_blue,stdout=sp.PIPE, shell = True)
     sp.call('ds9 -rgbcube '+prefix+'Colour_residuals.fits -zoom to fit -colorbar no -rgb green -scale limits '+infgn+' '+maxgn+' -rgb red -scale limits '+infrn+' '+maxrn+' -rgb blue -scale limits '+infbn+' '+maxbn+' -saveimage png '+name_all,stdout=sp.PIPE, shell = True)
-
-
-##    nb = ns
-##    [UA,EA, VA] = np.linalg.svd(A)
-##    AT = A#.T
-##    A=A.T
-##    EAmax = np.max(EA)
-##    mu = 2/MCA.linorm(A,10)
-##    Y = np.reshape(X,(nb,n1*n2))
-##
-##    Ri = np.dot(AT,Y)
-##    sigma_y = np.zeros(nb)
-##    for i in np.linspace(0,nb-1,nb):
-##        sigma_y[i] = MCA.MAD(np.reshape(Y[i,:],(n1,n1)))*mu
-##
-##
-##    serr = np.zeros(nb)
-##    for i in np.linspace(0,nb-1,nb):
-##        err = np.sum(np.abs(X[i,:,:]-A[i,0]*S[0,:,:]-A[i,1]*S[1,:,:]))
-##        print(err)
-##        serr[i] = (err)**2
-##    Chi = np.sum(serr/sigma_y[::-1]**2)/(nb)
-##    print(Chi)
     
-    return Subred, Subblue
+    return 0

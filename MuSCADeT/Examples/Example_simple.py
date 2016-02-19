@@ -38,4 +38,4 @@ cs.make_colour_sub('Simu_simple/Sources_'+str(n)+'.fits',
                    './Simu_simple/Cube.fits',
                    'big_'+str(n),
                    prefix = './Simu_simple/',
-                   cuts = ['-0.1','0.6','-0.05','0.3','-0.02','0.1'])
+                   cuts = ['-0.1','0.6','-0.05','0.3','-0.02','0.1', '0','0.5'])

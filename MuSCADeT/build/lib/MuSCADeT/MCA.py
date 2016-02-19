@@ -12,7 +12,7 @@ import pylab
 import scipy.ndimage.filters as med
 
 
-def mMCA(img, A,kmax, niter,mode = 'PCA', PCA = [2,10], harder = 0, pos = False,threshmode = 'mom',lvl = 6, soft = False, reweighting = 'none'):
+def mMCA(img, A,kmax, niter,mode = 'PCA', PCA = [2,10], harder = 0, pos = False,threshmode = 'mom',lvl = 6, soft = False, reweighting = 'none', alpha = [0,0], npca = 64):
     """
       mMCA runs the MuSCADeT algorithm over a cube of multi-band images.
   
@@ -26,7 +26,7 @@ the size of the images
       OUTPUTS:
           S: extracted sources
           A: mixing matrix, either given by the user or estimate by PCA with option mode ='PCA' 
-
+          alpha: angles in PCA space to identify pixels with same SEDs
       OPTIONS:
           mode: if set to 'PCA', the mixing matrix A will be estimated from PCA decomposition of the SEDs
           PCA: parameters for PCA sensitivity. if mode is set to 'PCA', the PCA estimator will take PCA[0]
@@ -47,22 +47,15 @@ source. Values betwee 5 and 30 are usually recommended
     n1,n2,nb = np.shape(img.T)
     
     if mode == 'PCA':
-        Apca = PCA_initialise(img.T, PCA[0], angle = PCA[1])       
+        Apca = PCA_initialise(img.T, PCA[0], angle = PCA[1], alpha = alpha, npca = npca)
         Apca = np.multiply(Apca,[1./np.sum(Apca,0)])      
         A = Apca
 
     nb,ns = np.shape(A)
     X = np.zeros((ns,n1*n2))
 
-    
     A = np.multiply(A,[1./np.sum(A,0)])
-    
-
-    
-
     AT = A.T
-
-    
 
     [UA,EA, VA] = np.linalg.svd(A)
     EAmax = np.max(EA)
@@ -102,50 +95,23 @@ source. Values betwee 5 and 30 are usually recommended
 
     for i in np.linspace(0,niter-1, niter):
             print(i)
-
-            
             Sp = S
-
-            
             R = mu*np.dot(AT, Y-np.dot(A,X))
             X = np.real(X+R)
             S = X
-        
-            wmax = np.zeros((ns))
-            wm = np.zeros((ns,lvl))
-            
-            for j in np.linspace(0, ns-1, ns):
-
-                w[j,:,:,:] = mw.wave_transform(np.reshape(S[j,:],(n1,n2)),lvl)
-                for l in np.linspace(0,lvl-1,lvl):
-                        wm[j,l] = np.max(np.abs(w[j,l,:,:]))/noisetab[l]
- #                       wmap[j,l,:,:] = wmap[j,l,:,:]/noisetab[l] 
-                wmax[j] = np.max(wm[j,:])
-                
-                wmax[j] = wmax[j]/sigma[j]
-                
-
             if threshmode == 'mom':
                     kmas = MOM(np.reshape(R,(ns,n1,n2)),sigma,lvl=lvl)
                     threshmom =np.max([kmas,kmax])
                     if threshmom <k:
                             k = threshmom
                             step = ((k-kmax)/(niter-i-6))
-                            print('momy s threshold',threshmom)
-
-            if reweighting != 'none':
-                    for s in np.linspace(0,ns-1,ns):
-                            thmap[s,:lvl-1,:,:] = (wmap[s-1,:lvl-1,:,:]) 
+                            print('threshold from MOM',threshmom)
             
             for j in np.linspace(0, ns-1, ns):
-
                     kthr = np.max([kmax, k])
-                        
-                    Sj,wmap[j,:,:,:] = mr_filter(np.reshape(S[j,:],(n1,n2)),10,kthr,sigma[j],harder = harder, lvl = lvl,pos = pos,soft = soft)
+                    Sj,wmap = mr_filter(np.reshape(S[j,:],(n1,n2)),10,kthr,sigma[j],harder = harder, lvl = lvl,pos = pos,soft = soft)
                     S[j,:] = np.reshape(Sj,(n1*n2))           
 
-          
-            X=X
             ks[i] = kthr
             k = k-step
         
@@ -270,15 +236,16 @@ def mr_filter(img, niter, k, sigma,lvl = 6, pos = False, harder = 0,mulweight = 
     M = np.zeros((lvl,n1,n2))
     M[:,:,:] = 0
     M[-1,:,:] = 1
+ 
 
     sh = np.shape(M)
     th = np.ones(sh)*(k)
     ##A garder
     th[0,:,:] = th[0,0,0]+1+5*harder
     th[1,:,:] = th[1,:,:]+5*harder
-    th[2,:,:] = th[2,:,:]+5*harder
-    th[3,:,:] = th[3,:,:]+2*harder
- #   th[4,:,:] = th[4,:,:]+5*harder
+    th[2,:,:] = th[2,:,:]+4*harder
+    th[3,:,:] = th[3,:,:]+3*harder
+    th[4,:,:] = th[4,:,:]+2*harder
     
 ####################
 
@@ -304,7 +271,7 @@ def mr_filter(img, niter, k, sigma,lvl = 6, pos = False, harder = 0,mulweight = 
         alpha = mw.wave_transform(R,lvl,newwave = 1)
 
         if soft == True and i>0:
-            alpha= np.sign(alpha)*(np.abs(alpha)-np.abs(addweight)+np.abs(subweight)-(th2g*mulweight))   
+            alpha= np.sign(alpha)*(np.abs(alpha)-np.abs(addweight)+np.abs(subweight)-(th*mulweight))   
 
         Rnew = mw.iuwt(M*alpha)
         imnew = imnew+Rnew
@@ -351,7 +318,7 @@ def linorm(A,nit):
 
 
 
-def PCA_initialise(cube, ns, angle = 15,npca = 64):
+def PCA_initialise(cube, ns, angle = 15,npca = 32, alpha = [0,0]):
     """
       Estimates the mixing matrix of of two sources in a multi band set of images
 
@@ -384,7 +351,7 @@ def PCA_initialise(cube, ns, angle = 15,npca = 64):
 
    
     alphas, basis, sig= pcas.pca_ring_spectrum(cubepca[:,:,:].T,std = s)    
-    ims0 = pcas.pca_lines(alphas,sig,angle, ns)
+    ims0 = pcas.pca_lines(alphas,sig,angle, ns, alpha0 = alpha)
 
     vals = np.array(list(set(np.reshape(ims0,(npca*npca)))))
 

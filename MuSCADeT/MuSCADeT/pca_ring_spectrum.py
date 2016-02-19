@@ -57,10 +57,6 @@ def pca_ring_spectrum(images, std = 0):
     x1d = np.where(support1d==1)
 
     spectrums = np.reshape(res[x,y,:],(np.size(x1d),s))
-
-
-    
-
     alphas = np.zeros((np.size(x),n1*n2))
     alpha,base = mk.mk_pca(spectrums.T)
 
@@ -106,7 +102,7 @@ def actg(X,Y):
     return angle
 
 
-def pca_lines(alphas, sig, dt, ns):
+def pca_lines(alphas, sig, dt, ns, alpha0 = [0,30]):
     """
     Finds alignments in PCA coefficients and identifies corresponding structures in direct space. It is actually a simple angular clustering algorithm.
     INPUTS:
@@ -143,10 +139,7 @@ def pca_lines(alphas, sig, dt, ns):
     angle = np.zeros(np.size(X))
     for i in range(np.size(angle)):
         angle[i] = actg(X[i],Y[i])
-
-                           
     angle[np.where( norm==0)] = 0
-    angle
 
 
     #Angles a zero non pris en compte
@@ -154,7 +147,6 @@ def pca_lines(alphas, sig, dt, ns):
     theta = angle[loc]
     
     normtrunc = norm[loc]
-    theta = theta
     cluster = np.zeros(np.size(theta))*2
     attractors = np.zeros(ns)
     attractors[0] = np.random.rand(1)*np.pi*2
@@ -168,46 +160,50 @@ def pca_lines(alphas, sig, dt, ns):
     maxi = np.zeros(ns)
     loctheta = np.zeros(2*np.pi/dt)
     k = 0
-        
-    while 1:
-        isdone = 0
-        count = 0
-        #On parcours les angles pour leur attribuer chacun un attracteur
-        for T in theta:
-            #Distance angle attracteur
-            dist = np.abs(T-attractors)
 
-            #Correction du passage 2pi-0
-            bigloc =np.where(dist>=np.pi) 
-            if np.size(bigloc)>0:
-                dist[bigloc] = 2*np.pi-dist[bigloc]
-            find = np.where(dist == np.min(dist))[0]
-            #Attribution de l'attracteur
-            cluster[count]=find
+    if np.sum(alpha0)!=0:    
+        attractors = np.array(alpha0)*np.pi/180.
+    else:    
+        while 1:
+            isdone = 0
+            count = 0
+            #On parcours les angles pour leur attribuer chacun un attracteur
+            for T in theta:
+                #Distance angle attracteur
+                dist = np.abs(T-attractors)
 
-           
-            count = count+1
- 
-        if last ==1:
-            break
-        #Recomputing attractors by averaging over the detected angles
-        oldattractors = attractors+0.
-        for j in np.linspace(0,ns-1,ns):
-            sample = theta[np.where(cluster == j)]
-            if np.size(sample) ==0:
-                attractors[j] = np.random.rand(1)*np.pi*2
-            else:
-                if np.max(sample)-np.min(sample) >= np.pi:
-                    sample[np.where(sample<np.pi)] = sample[np.where(sample<np.pi)] + 2*np.pi
-   
-                if np.mean(sample) >2*np.pi:
-                    attractors[j] = np.median(sample)-2*np.pi
+                #Correction du passage 2pi-0
+                bigloc =np.where(dist>=np.pi) 
+                if np.size(bigloc)>0:
+                    dist[bigloc] = 2*np.pi-dist[bigloc]
+                find = np.where(dist == np.min(dist))[0]
+                #Attribution de l'attracteur
+                cluster[count]=find
+
+               
+                count = count+1
+     
+            if last ==1:
+                break
+            #Recomputing attractors by averaging over the detected angles
+            oldattractors = attractors+0.
+            for j in np.linspace(0,ns-1,ns):
+                sample = theta[np.where(cluster == j)]
+                if np.size(sample) ==0:
+                    attractors[j] = np.random.rand(1)*np.pi*2
                 else:
-                    attractors[j] = np.median(sample)
-                if attractors[j] == oldattractors[j]:
-                    isdone = isdone+1
-        if isdone == ns:
-            last = 1
+                    if np.max(sample)-np.min(sample) >= np.pi:
+                        sample[np.where(sample<np.pi)] = sample[np.where(sample<np.pi)] + 2*np.pi
+       
+                    if np.mean(sample) >2*np.pi:
+                        attractors[j] = np.median(sample)-2*np.pi
+                    else:
+                        attractors[j] = np.median(sample)
+                    if attractors[j] == oldattractors[j]:
+                        isdone = isdone+1
+            if isdone == ns:
+                last = 1
+    ###
 
     #Select only the coefficients in an given angular proximity
     locky = np.zeros(np.size(theta))-1.
@@ -221,14 +217,6 @@ def pca_lines(alphas, sig, dt, ns):
         
         distance[np.where(theta == 0)] = 0
         locky[np.where(distance<dt/2)]=i
-##############
-    ##Second correction of attractors
-    for j in np.linspace(0,ns-1,ns):
-        attractors[j] = np.median(theta[np.where(locky == j)])
-    locky = np.zeros(np.size(theta))-1.
-    for i in np.linspace(0,ns-1,ns):
-        distance = np.abs(theta-attractors[i])
-
         bigloc = np.where(distance >= np.pi)
         if np.size(bigloc) >0:
             distance[bigloc] = 2*np.pi-distance[bigloc]
@@ -243,10 +231,11 @@ def pca_lines(alphas, sig, dt, ns):
     locator = np.zeros(np.size(angle))-1.
     locator[loc] = locky
 
-# plt.plot(alphas[0,:],alphas[1,:],'x')
-#   plt.plot([0,np.cos(attractors[0])],[0,np.sin(attractors[0])])
-#   plt.plot([0,np.cos(attractors[1])],[0,np.sin(attractors[1])])
-#   plt.show()
+#### To comment or not to comment ####
+#    plt.plot(alphas[0,:],alphas[1,:],'x')
+#    plt.plot([0,np.cos(attractors[0])],[0,np.sin(attractors[0])])
+#    plt.plot([0,np.cos(attractors[1])],[0,np.sin(attractors[1])])
+#    plt.show()
     
     images = np.zeros([n2**0.5,n2**0.5])
     images[:,:]=-1
