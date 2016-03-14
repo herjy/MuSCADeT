@@ -12,7 +12,7 @@ import pylab
 import scipy.ndimage.filters as med
 
 
-def mMCA(img, A,kmax, niter,mode = 'PCA', PCA = [2,10], harder = 0, pos = False,threshmode = 'mom',lvl = 6, soft = False, reweighting = 'none', alpha = [0,0], npca = 64):
+def mMCA(img, A,kmax, niter,mode = 'PCA', PCA = [2,10], harder = 0, pos = False,threshmode = 'mom',lvl = 6, soft = False, reweighting = 'none', alpha = [0,0], npca = 64, mask = [0,0]):
     """
       mMCA runs the MuSCADeT algorithm over a cube of multi-band images.
   
@@ -36,16 +36,25 @@ source. Values betwee 5 and 30 are usually recommended
           pos: if set to True, the output of the hard thresholding procedure is constrined to be positive
           threshmode: if set to 'mom', adaptive method of moments is used at every iteration to decrease the  threshold
           lvl: number of wavelet levels to use in the decompositions, default is 6.
-          soft: if set to True, soft thresholding is used 
+          soft: if set to True, soft thresholding is used
+          alpha: angles in degrees to feed the PCA finder. If set, the PCA finder will use pixels along the directions pointed by these angles in PCA space to estimate SED
+              That option is particularly useful if automated PCA fails at clearly identifying different SEDs. This  happens in case of high degrees of blending.
+          mask: if parts of the band images images are to be masked (e.g. stars in the FOV), the user can provide a mask with size n1xn2
+              with all pixels at one except for the masked pixels that should be set to 0.
+          npca: number of pixels in which images are downsampled to perform a fast PCA.
 
       EXAMPLE:
-
+    S,A = wine.MCA.mMCA(cube, A, 5,10, PCA=[2,80], mode=pca, harder = 1)
     
     """
     noisetab = np.array([ 0.8907963 ,  0.20066385,  0.08550751,  0.04121745,  0.02042497,
         0.01018976,  0.00504662,  0.00368314])
     n1,n2,nb = np.shape(img.T)
-    
+
+    if np.sum(mask) == 0:
+        mask = np.ones((n1,n2))
+    img = np.multiply(img,mask)
+
     if mode == 'PCA':
         Apca = PCA_initialise(img.T, PCA[0], angle = PCA[1], alpha = alpha, npca = npca)
         Apca = np.multiply(Apca,[1./np.sum(Apca,0)])      
@@ -95,8 +104,9 @@ source. Values betwee 5 and 30 are usually recommended
 
     for i in np.linspace(0,niter-1, niter):
             print(i)
-            Sp = S
-            R = mu*np.dot(AT, Y-np.dot(A,X))
+            AX = np.dot(A,X)
+            
+            R = mu*np.dot(AT, Y-AX)
             X = np.real(X+R)
             S = X
             if threshmode == 'mom':
@@ -110,8 +120,10 @@ source. Values betwee 5 and 30 are usually recommended
             for j in np.linspace(0, ns-1, ns):
                     kthr = np.max([kmax, k])
                     Sj,wmap = mr_filter(np.reshape(S[j,:],(n1,n2)),10,kthr,sigma[j],harder = harder, lvl = lvl,pos = pos,soft = soft)
-                    S[j,:] = np.reshape(Sj,(n1*n2))           
+                    S[j,:] = np.reshape(Sj,(n1*n2))
 
+            X = np.multiply(S,np.reshape(mask,(n1*n2)))
+            a = 1
             ks[i] = kthr
             k = k-step
         
@@ -236,7 +248,9 @@ def mr_filter(img, niter, k, sigma,lvl = 6, pos = False, harder = 0,mulweight = 
     M = np.zeros((lvl,n1,n2))
     M[:,:,:] = 0
     M[-1,:,:] = 1
- 
+#    M[:,140:270,300:420] = 1
+#    M[:,450:545,500:590] = 1
+#    M[:,120:220,630:720] = 1
 
     sh = np.shape(M)
     th = np.ones(sh)*(k)
@@ -256,6 +270,10 @@ def mr_filter(img, niter, k, sigma,lvl = 6, pos = False, harder = 0,mulweight = 
     i =0
 
     R= img
+
+ #   R[140:270,300:420] = 0.0
+#    R[450:545,500:590] = 0.0
+#    R[120:220,630:720] = 0.0
     alpha = mw.wave_transform(R,lvl, newwave = 0)
     
     if pos == True :
@@ -267,9 +285,11 @@ def mr_filter(img, niter, k, sigma,lvl = 6, pos = False, harder = 0,mulweight = 
 
     while i < niter:
         R = img-imnew
-        
+ #       R[140:270,300:420] = 0.0
+#        R[450:545,500:590] = 0.0
+#        R[120:220,630:720] = 0.0
         alpha = mw.wave_transform(R,lvl,newwave = 1)
-
+ #       plt.imshow(R); plt.show()
         if soft == True and i>0:
             alpha= np.sign(alpha)*(np.abs(alpha)-np.abs(addweight)+np.abs(subweight)-(th*mulweight))   
 

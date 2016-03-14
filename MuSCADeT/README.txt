@@ -1,3 +1,6 @@
+When using this algorithm for publications, please acknowledge the work presented in:
+http://arxiv.org/abs/1603.00473
+
 ========================================================
 INSTALLATION: 
 	      - Download and unzip the MuSCADeT.zip file

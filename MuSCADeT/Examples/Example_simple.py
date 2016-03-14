@@ -16,7 +16,7 @@ Aprior = pf.open('Simu_simple/Simu_A.fits')[0].data
 
 ## Input parameters
 pca = 'PCA'     #Estimation of the mixing coefficients from PCA. If different from PCA it will use the array provided in Aprior
-n = 100         #Number of iterations
+n = 100        #Number of iterations
 nsig = 5        #Threshold in units of noise standard deviation
 ns = 2          #Number of sources
 angle = 10      #Resolution angle for the PCA colour estimation (start with 15 then adjust empirically)

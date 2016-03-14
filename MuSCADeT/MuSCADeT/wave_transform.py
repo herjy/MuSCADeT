@@ -39,14 +39,14 @@ def wave_transform(img, lvl, Filter = 'Bspline', newwave = 1, convol2d = 0):
     n2 = sh[1]
     
     if Filter == 'Bspline':
-        h = [1./16, 1./4, 3./8, 1./4, 1./16]
+        h = [np.float(1./16.), np.float(1./4.), np.float(3./8.), np.float(1./4.), np.float(1./16.)]
     else:
         h = [1./4,1./2,1./4]
     n = np.size(h)
     h = np.array(h)
     
-    if n+2**(lvl-1)*(n-1) >= np.min([n1,n2])/2.:
-        lvl = np.int_(np.log2((n1-1)/(n-1.))+1)
+    if n+2.**(lvl-1)*(n-1) >= np.min([n1,n2])/2.:
+        lvl = np.int_(np.log2((n1-1.)/(n-1.))+1.)
 
     c = img
     ## wavelet set of coefficients.
