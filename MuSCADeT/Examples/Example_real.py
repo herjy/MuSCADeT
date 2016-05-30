@@ -35,7 +35,6 @@ lists.writeto('Simu_real/Estimated_A.fits', clobber=True)
 cs.make_colour_sub('Simu_real/Sources_'+str(n)+'.fits',
                    'Simu_real/Estimated_A.fits',
                    './Simu_real/Cube.fits',
-                   'real_'+str(n),
                    prefix = './Simu_real/',
                    cuts = ['-0.1','0.6','-0.05','0.3','-0.02','0.1'])
 

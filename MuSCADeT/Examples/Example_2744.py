@@ -46,6 +46,6 @@ lists.writeto('Simu_2744/Estimated_A.fits', clobber=True)
 
 cs.make_colour_sub('Simu_2744/Sources_'+str(n)+'_'+pen+'.fits',
                    'Simu_2744/Estimated_A.fits',
-                   './Simu_2744/All_real.fits','big_'+str(n)+'_'+pen, cuts = ['0','0.25','0','0.15','0','0.02','0','0.1','0','0.1'], prefix = './Simu_2744/')
+                   './Simu_2744/All_real.fits', cuts = ['0','0.25','0','0.15','0','0.02','0','0.1','0','0.1'], prefix = './Simu_2744/')
 
 plt.show()

@@ -37,6 +37,6 @@ lists.writeto('Simu_nottoosimple/Estimated_A.fits', clobber=True)
 cs.make_colour_sub('Simu_nottoosimple/Sources_'+str(n)+'.fits',
                    'Simu_nottoosimple/Estimated_A.fits',
                    './Simu_nottoosimple/Cube.fits',
-                   'nottosimple_'+str(n), prefix = './Simu_nottoosimple/')
+                   prefix = './Simu_nottoosimple/')
 
 

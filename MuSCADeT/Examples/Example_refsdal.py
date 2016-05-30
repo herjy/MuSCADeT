@@ -36,7 +36,6 @@ for i in [1]:
     cs.make_colour_sub('Simu_Refsdal_big/Sources_'+str(n)+'.fits',
                        'Simu_Refsdal_big/Estimated_A.fits',
                        './Simu_Refsdal_big/Cube.fits',
-                       'Refsdal_big_'+str(n),
                        prefix = './Simu_Refsdal_big/',
                        cuts = ['0','0.1','-0.002','0.06','-0.002','0.03'])
 

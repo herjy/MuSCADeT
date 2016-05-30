@@ -102,7 +102,7 @@ def actg(X,Y):
     return angle
 
 
-def pca_lines(alphas, sig, dt, ns, alpha0 = [0,30]):
+def pca_lines(alphas, sig, dt, ns, alpha0 = [0,30], plot = plot):
     """
     Finds alignments in PCA coefficients and identifies corresponding structures in direct space. It is actually a simple angular clustering algorithm.
     INPUTS:
@@ -261,19 +261,20 @@ def pca_lines(alphas, sig, dt, ns, alpha0 = [0,30]):
     
 ## #       class_member_mask = (clus== k)
         xy = alphas[0:2,np.where(locator == k)[0]]
-        
-        plt.figure(1)
-        plt.plot(xy[0,:], xy[1,:], 'o', markerfacecolor=col, markeredgecolor='k', markersize=14)
-        plt.xlabel('PCA 1')
-        plt.ylabel('PCA 2')
+        if plot == True:
+            plt.figure(1)
+            plt.plot(xy[0,:], xy[1,:], 'o', markerfacecolor=col, markeredgecolor='k', markersize=14)
+            plt.xlabel('PCA 1')
+            plt.ylabel('PCA 2')
         
 
 ##   #     xk.XKCDify(ax, expand_axes=True)
- #   plt.axis('equ)      
-    plt.figure(20)
-    plt.imshow(np.flipud(images), interpolation ='nearest')#; plt.colorbar()
-    plt.axis('off')
-    plt.show()
+ #   plt.axis('equ)
+    if plot == True:
+        plt.figure(20)
+        plt.imshow(np.flipud(images), interpolation ='nearest')#; plt.colorbar()
+        plt.axis('off')
+        plt.show()
 
     return images
 
