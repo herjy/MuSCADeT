@@ -12,7 +12,7 @@ import pylab
 import scipy.ndimage.filters as med
 
 
-def mMCA(img, A,kmax, niter,mode = 'PCA', PCA = [2,10], harder = 0, pos = False,threshmode = 'mom',lvl = 6, soft = False, reweighting = 'none', alpha = [0,0], npca = 64, mask = [0,0]):
+def mMCA(img, A,kmax, niter,mode = 'PCA', PCA = [2,10], harder = 0, pos = False,threshmode = 'mom',lvl = 6, soft = False, reweighting = 'none', alpha = [0,0], npca = 64, mask = [0,0], plot = False):
     """
       mMCA runs the MuSCADeT algorithm over a cube of multi-band images.
   
@@ -42,6 +42,7 @@ source. Values betwee 5 and 30 are usually recommended
           mask: if parts of the band images images are to be masked (e.g. stars in the FOV), the user can provide a mask with size n1xn2
               with all pixels at one except for the masked pixels that should be set to 0.
           npca: number of pixels in which images are downsampled to perform a fast PCA.
+          plot: set to true to display PCA coefficients of the SEDs. Set to False for automated mode
 
       EXAMPLE:
     S,A = wine.MCA.mMCA(cube, A, 5,10, PCA=[2,80], mode=pca, harder = 1)
@@ -56,7 +57,7 @@ source. Values betwee 5 and 30 are usually recommended
     img = np.multiply(img,mask)
 
     if mode == 'PCA':
-        Apca = PCA_initialise(img.T, PCA[0], angle = PCA[1], alpha = alpha, npca = npca)
+        Apca = PCA_initialise(img.T, PCA[0], angle = PCA[1], alpha = alpha, npca = npca, plot = plot)
         Apca = np.multiply(Apca,[1./np.sum(Apca,0)])      
         A = Apca
 
@@ -338,7 +339,7 @@ def linorm(A,nit):
 
 
 
-def PCA_initialise(cube, ns, angle = 15,npca = 32, alpha = [0,0]):
+def PCA_initialise(cube, ns, angle = 15,npca = 32, alpha = [0,0], plot = 0):
     """
       Estimates the mixing matrix of of two sources in a multi band set of images
 
@@ -371,7 +372,7 @@ def PCA_initialise(cube, ns, angle = 15,npca = 32, alpha = [0,0]):
 
    
     alphas, basis, sig= pcas.pca_ring_spectrum(cubepca[:,:,:].T,std = s)    
-    ims0 = pcas.pca_lines(alphas,sig,angle, ns, alpha0 = alpha)
+    ims0 = pcas.pca_lines(alphas,sig,angle, ns, alpha0 = alpha, plot = plot)
 
     vals = np.array(list(set(np.reshape(ims0,(npca*npca)))))
 

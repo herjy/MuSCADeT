@@ -102,7 +102,7 @@ def actg(X,Y):
     return angle
 
 
-def pca_lines(alphas, sig, dt, ns, alpha0 = [0,30], plot = plot):
+def pca_lines(alphas, sig, dt, ns, alpha0 = [0,30], plot = 0):
     """
     Finds alignments in PCA coefficients and identifies corresponding structures in direct space. It is actually a simple angular clustering algorithm.
     INPUTS:

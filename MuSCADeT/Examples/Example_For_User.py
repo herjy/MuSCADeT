@@ -29,7 +29,7 @@ alpha = [0,0]   #If automated estimation of PCA coefficients fails, chose adequa
 plot = False     #option to plot the PCA coefficients of the SEDs in the image. This option is usefull if one wants to make sure that SEDs have been correctly estimated. In automated mode, keep this option at False. In case the SEDs have to be refined, set plot to True, identify the features (alignements) on the plot that stand for different SEDs and use this to give values for alpha. (see readme.)
 
 ## Running MuSCADeT
-S,A = MCA.mMCA(cube, Aprior.T, nsig,n, PCA=[ns,angle], mode=pca, alpha = [0,0])
+S,A = MCA.mMCA(cube, Aprior, nsig,n, PCA=[ns,angle], mode=pca, alpha = [0,0])
 
 ## MuSCADeT estimates ns source, which means, variable S contains ns images
 ## Saves the sources in a fits file

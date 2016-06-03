@@ -339,7 +339,7 @@ def linorm(A,nit):
 
 
 
-def PCA_initialise(cube, ns, angle = 15,npca = 32, alpha = [0,0], plot = plot):
+def PCA_initialise(cube, ns, angle = 15,npca = 32, alpha = [0,0], plot = 0):
     """
       Estimates the mixing matrix of of two sources in a multi band set of images
 
@@ -372,7 +372,7 @@ def PCA_initialise(cube, ns, angle = 15,npca = 32, alpha = [0,0], plot = plot):
 
    
     alphas, basis, sig= pcas.pca_ring_spectrum(cubepca[:,:,:].T,std = s)    
-    ims0 = pcas.pca_lines(alphas,sig,angle, ns, alpha0 = alpha)
+    ims0 = pcas.pca_lines(alphas,sig,angle, ns, alpha0 = alpha, plot = plot)
 
     vals = np.array(list(set(np.reshape(ims0,(npca*npca)))))
 

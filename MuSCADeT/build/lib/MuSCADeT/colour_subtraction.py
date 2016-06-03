@@ -10,7 +10,7 @@ import matplotlib.colors as mc
 import subprocess as sp
 from MuSCADeT import MCA
 
-def make_colour_sub(Sfile,Afile,Xfile,suffixe,prefix = './', cuts = ['0','0.1','-0.002','0.06','-0.002','0.03','0', '0.5']):
+def make_colour_sub(Sfile,Afile,Xfile,suffixe='',prefix = './', cuts = ['0','0.1','-0.002','0.06','-0.002','0.03','0', '0.5']):
     """
      Creates colour images and visualisation of the residuals of the separation of estimated sources from a colour image.
      INPUTS:
