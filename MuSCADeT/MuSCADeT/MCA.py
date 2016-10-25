@@ -12,7 +12,7 @@ import pylab
 import scipy.ndimage.filters as med
 
 
-def mMCA(img, A,kmax, niter,mode = 'PCA', PCA = [2,10], harder = 0, pos = False,threshmode = 'mom',lvl = 6, soft = False, reweighting = 'none', alpha = [0,0], npca = 64, mask = [0,0], plot = False):
+def mMCA(img, A,kmax, niter,mode = 'PCA', PCA = [2,10], harder = 0, pos = False,threshmode = 'mom',lvl = 6, soft = False, reweighting = 'none', alpha = [0,0], npca = 64, mask = [0,0], plot = False, noise_map = [0,0]):
     """
       mMCA runs the MuSCADeT algorithm over a cube of multi-band images.
   
@@ -102,6 +102,9 @@ source. Values betwee 5 and 30 are usually recommended
     sub = 0
     reweight = 0
     weight2 = 1
+    if np.sum(noise_map) != 0:
+        sig_map = np.dot(AT,np.reshape(noise_map,(nb,n1*n2)))
+        sigma = np.reshape(sig_map,(ns,n1,n2))
 
     for i in np.linspace(0,niter-1, niter):
             print(i)
@@ -169,7 +172,7 @@ def MOM(R,sigma,lvl = 6):
                 for l in np.linspace(0,lvl-2,lvl-1):
                         wm[j,l] = np.max(np.abs(w[j,l,:,:]))/noisetab[l]
                 wmax[j] = np.max(wm[j,:])
-                wmax[j] = wmax[j]/sigma[j]
+                wmax[j] = wmax[j]/np.mean(sigma[j])
                 
     k = np.min(wmax)+(max(wmax)-min(wmax))/100
     return k
