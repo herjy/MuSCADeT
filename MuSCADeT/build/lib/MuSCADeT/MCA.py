@@ -67,12 +67,8 @@ source. Values betwee 5 and 30 are usually recommended
     A = np.multiply(A,[1./np.sum(A,0)])
     AT = A.T
 
-    [UA,EA, VA] = np.linalg.svd(A)
-    EAmax = np.max(EA)
-    mu1 = 2/linorm(A,10)
-    mu = 2/EAmax
-    
-    mu = mu1
+    mu = 1./linorm(A,10)
+
 
     Y = np.reshape(img,(nb,n1*n2))
 
@@ -92,16 +88,8 @@ source. Values betwee 5 and 30 are usually recommended
     print(kmas)
     step = (kmas-kmax)/(niter-5)
     k = kmas
-
-    per= np.zeros((ns,niter))
-    w = np.zeros((ns,lvl,n1,n2))
-    wmap = np.zeros((ns,lvl,n1,n2))
-    S = np.zeros((ns,n1*n2))
-    thmap = np.zeros((ns,lvl,n1,n2))
     ks = np.zeros(niter)
-    sub = 0
-    reweight = 0
-    weight2 = 1
+
     if np.sum(noise_map) != 0:
         sig_map = np.dot(AT,np.reshape(noise_map,(nb,n1*n2)))
         sigma = np.reshape(sig_map,(ns,n1,n2))
@@ -166,9 +154,9 @@ def MOM(R,sigma,lvl = 6):
     wm = np.zeros((ns,lvl))
     w = np.zeros((ns,lvl,n1,n2))
     
-    for j in np.linspace(0, ns-1, ns):
+    for j in range(ns):
                 w[j,:,:,:] = mw.wave_transform(R[j,:,:],lvl)
-    for j in np.linspace(0, ns-1, ns):
+    for j in range(ns):
                 for l in np.linspace(0,lvl-2,lvl-1):
                         wm[j,l] = np.max(np.abs(w[j,l,:,:]))/noisetab[l]
                 wmax[j] = np.max(wm[j,:])

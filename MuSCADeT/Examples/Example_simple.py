@@ -6,6 +6,8 @@ from MuSCADeT import MCA
 from MuSCADeT import wave_transform as mw
 import scipy.stats as sc
 from MuSCADeT import colour_subtraction as cs
+import warnings
+warnings.simplefilter("ignore")
 
 ## Openning data cube
 cube = pf.open('./Simu_simple/Cube.fits')[0].data
@@ -22,7 +24,7 @@ ns = 2          #Number of sources
 angle = 10      #Resolution angle for the PCA colour estimation (start with 15 then adjust empirically)
 
 ## Running MuSCADeT
-S,A = MCA.mMCA(cube, Aprior.T, nsig,n, PCA=[ns,angle], mode=pca)
+S,A = MCA.mMCA(cube, Aprior.T, nsig,n, PCA=[ns,angle], mode=pca, lvl = 6)
 
 
 hdus = pf.PrimaryHDU(S)

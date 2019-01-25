@@ -1,4 +1,4 @@
-Metadata-Version: 1.0
+Metadata-Version: 1.1
 Name: MuSCADeT
 Version: 0.1
 Summary: Code for colour separation of multi-band astronomical images
@@ -8,3 +8,6 @@ Author-email: remy.joseph@epfl.ch
 License: UNKNOWN
 Description: UNKNOWN
 Platform: UNKNOWN
+Classifier: Programming Language :: Python :: 2.7
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent

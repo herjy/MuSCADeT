@@ -5,6 +5,8 @@ from MuSCADeT import MCA
 from MuSCADeT import pca_ring_spectrum as pcas
 import scipy.stats as sc
 from MuSCADeT import colour_subtraction as cs
+import warnings
+warnings.simplefilter("ignore")
 
 ## Openning data cube
 cube = pf.open('./Simu_Refsdal_big/Cube.fits')[0].data
@@ -21,7 +23,7 @@ ns = 2          #Number of sources
 angle = 50      #Resolution angle for the PCA colour estimation (start with 15 then adjust empirically)
 
 ## Running MuSCADeT
-S,A = MCA.mMCA(cube, Aprior, nsig,n, PCA=[ns,angle], mode=pca, harder = 1)
+S,A = MCA.mMCA(cube, Aprior, nsig,n, PCA=[ns,angle], mode=pca, harder = 1, lvl=6)
 
 
 for i in [1]:

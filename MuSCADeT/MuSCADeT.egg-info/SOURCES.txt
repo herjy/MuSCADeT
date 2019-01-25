@@ -1,10 +1,11 @@
-README.txt
+README.md
 setup.py
 MuSCADeT/MCA.py
 MuSCADeT/__init__.py
 MuSCADeT/colour_subtraction.py
 MuSCADeT/mk_pca.py
 MuSCADeT/pca_ring_spectrum.py
+MuSCADeT/wave_transform.py
 MuSCADeT.egg-info/PKG-INFO
 MuSCADeT.egg-info/SOURCES.txt
 MuSCADeT.egg-info/dependency_links.txt
