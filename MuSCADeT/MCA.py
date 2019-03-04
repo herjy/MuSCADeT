@@ -2,7 +2,7 @@
 
 
 """
-
+from scipy import signal as scp
 import numpy as np
 import matplotlib.pyplot as plt
 import pca_ring_spectrum as pcas
@@ -12,7 +12,8 @@ import pylab
 import scipy.ndimage.filters as med
 
 
-def mMCA(img, A,kmax, niter,mode = 'PCA', PCA = [2,10], harder = 0, pos = False,threshmode = 'mom',lvl = 6, soft = False, reweighting = 'none', alpha = [0,0], npca = 64, mask = [0,0], plot = False, noise_map = [0,0]):
+def mMCA(img, A,kmax, niter,mode = 'PCA', PCA = [2,40], harder = 0, pos = False,threshmode = 'mom',lvl = 0, PSF = None,
+         soft = False, reweighting = 'none', alpha = [0,0], npca = 64, mask = [0,0], plot = False, noise_map = [0,0]):
     """
       mMCA runs the MuSCADeT algorithm over a cube of multi-band images.
   
@@ -52,10 +53,14 @@ source. Values betwee 5 and 30 are usually recommended
         0.01018976,  0.00504662,  0.00368314])
     n1,n2,nb = np.shape(img.T)
 
+    if lvl ==0:
+        lvl = np.int(np.log2(n1))
+
     if np.sum(mask) == 0:
         mask = np.ones((n1,n2))
     img = np.multiply(img,mask)
 
+    print(mode)
     if mode == 'PCA':
         Apca = PCA_initialise(img.T, PCA[0], angle = PCA[1], alpha = alpha, npca = npca, plot = plot)
         Apca = np.multiply(Apca,[1./np.sum(Apca,0)])      
@@ -67,38 +72,78 @@ source. Values betwee 5 and 30 are usually recommended
     A = np.multiply(A,[1./np.sum(A,0)])
     AT = A.T
 
-    mu = 1./linorm(A,10)
-
+    mu = 2/linorm(A,10)
 
     Y = np.reshape(img,(nb,n1*n2))
 
     Ri = np.dot(AT,Y)
     sigma_y = np.zeros(nb)
-    for i in np.linspace(0,nb-1,nb):
-        sigma_y[i] = MAD(np.reshape(Y[i,:],(n1,n2)))*mu
-        
-    sigma1 = np.zeros(ns)
-    sigma = sigma1+0
-    for i in np.linspace(0,ns-1,ns):
-        sigma1[i] = np.sqrt(np.sum( (AT[i,:]**2)*(sigma_y**2)))
-        sigma[i]=MAD(np.reshape(Ri[i,:],(n1,n2)))*mu
+    for i in range(nb):
+        sigma_y[i] = MAD(np.reshape(Y[i,:],(n1,n2)))
+
+
+
+
+    if PSF != None:
+        PSFT = np.copy(PSF)
+        print(np.shape(PSF))
+        for ind in range(nb):
+            PSFT[ind,:,:] = PSF[ind,:,:].T
+
+        def PSF_apply(x):
+            y = np.copy(x)*0
+            for i in range(nb):
+                y[i,:,:] = scp.fftconvolve(x[i,:,:],PSF[i,:,:],mode = 'same')
+            return y
+        def PSFT_apply(x):
+            y = np.copy(x)*0
+            for i in range(nb):
+                y[i,:,:] = scp.fftconvolve(x[i,:,:],PSFT[i,:,:],mode = 'same')
+            return y
+
+        for i in range(nb):
+            sigma_y[i] = sigma_y[i]*np.sqrt(np.sum(PSFT[i,:,:]**2))
+
+
+    sigma = np.zeros(ns)
+    for i in range(ns):
+        sigma[i] = np.sqrt(np.sum( (AT[i,:]**2)*(sigma_y**2)))
+
  
-    kmas = MOM(np.reshape(Ri,(ns,n1,n1)),sigma1,lvl)#15#np.max(np.dot(1/(mu*np.dot(AT,Y),1),mu*np.dot(AT,Y)))
+    kmas = MOM(np.reshape(Ri,(ns,n1,n1)),sigma,lvl)#15#np.max(np.dot(1/(mu*np.dot(AT,Y),1),mu*np.dot(AT,Y)))
 
     print(kmas)
     step = (kmas-kmax)/(niter-5)
     k = kmas
-    ks = np.zeros(niter)
 
+################FOR PLOT#############
+    th = np.ones((lvl,n1,n2))
+    th0 = np.multiply(th.T, noisetab[:lvl]).T * sigma[0]
+    th1 = np.multiply(th.T, noisetab[:lvl]).T * sigma[1]
+
+    per= np.zeros((ns,niter))
+    w = np.zeros((ns,lvl,n1,n2))
+    wmap = np.zeros((ns,lvl,n1,n2))
+    S = np.zeros((ns,n1*n2))
+    thmap = np.zeros((ns,lvl,n1,n2))
+    ks = np.zeros(niter)
+    sub = 0
+    reweight = 0
+    weight2 = 1
     if np.sum(noise_map) != 0:
         sig_map = np.dot(AT,np.reshape(noise_map,(nb,n1*n2)))
         sigma = np.reshape(sig_map,(ns,n1,n2))
 
-    for i in np.linspace(0,niter-1, niter):
+    for i in range(niter):
             print(i)
             AX = np.dot(A,X)
-            
-            R = mu*np.dot(AT, Y-AX)
+
+
+            if PSF != None:
+                AX = PSF_apply(AX.reshape((nb,n1,n2))).reshape((nb,n1*n2))
+                R = mu*np.dot(AT, PSFT_apply(np.reshape(Y-AX,(nb,n1,n2))).reshape(nb,n1*n2))
+            else:
+                R = mu*np.dot(AT, Y-AX)
             X = np.real(X+R)
             S = X
             if threshmode == 'mom':
@@ -109,21 +154,26 @@ source. Values betwee 5 and 30 are usually recommended
                             step = ((k-kmax)/(niter-i-6))
                             print('threshold from MOM',threshmom)
             
-            for j in np.linspace(0, ns-1, ns):
+            for j in range(ns):
                     kthr = np.max([kmax, k])
-                    Sj,wmap = mr_filter(np.reshape(S[j,:],(n1,n2)),10,kthr,sigma[j],harder = harder, lvl = lvl,pos = pos,soft = soft)
+                    Sj,wmap = mr_filter(np.reshape(S[j,:],(n1,n2)),20,kthr,sigma[j],harder = harder, lvl = lvl,pos = pos,soft = soft)
                     S[j,:] = np.reshape(Sj,(n1*n2))
 
+
             X = np.multiply(S,np.reshape(mask,(n1*n2)))
+
+
+
             a = 1
             ks[i] = kthr
             k = k-step
         
-    S = np.zeros((ns,n1,n2))
-    for l in np.linspace(0,ns-1,ns):
-    
-        S[l,:,:] = np.reshape((X[l,:]),(n1,n2)).T
-    plt.plot(ks); plt.show()
+    S = np.reshape(S,(ns,n1,n2))
+    plt.plot(ks, linewidth = 5)
+    plt.xlabel('Iterations', fontsize=30)
+    plt.ylabel('k', fontsize=30)
+    plt.title('k = f(it)', fontsize = 50)
+    plt.show()
     
     return S,A
 
@@ -154,15 +204,15 @@ def MOM(R,sigma,lvl = 6):
     wm = np.zeros((ns,lvl))
     w = np.zeros((ns,lvl,n1,n2))
     
-    for j in range(ns):
+    for j in np.linspace(0, ns-1, ns):
                 w[j,:,:,:] = mw.wave_transform(R[j,:,:],lvl)
-    for j in range(ns):
+    for j in np.linspace(0, ns-1, ns):
                 for l in np.linspace(0,lvl-2,lvl-1):
                         wm[j,l] = np.max(np.abs(w[j,l,:,:]))/noisetab[l]
                 wmax[j] = np.max(wm[j,:])
                 wmax[j] = wmax[j]/np.mean(sigma[j])
                 
-    k = np.min(wmax)+(max(wmax)-min(wmax))/100
+    k = np.min(wmax)+(np.max(wmax)-np.min(wmax))/100
     return k
 
 def MM(R,sigma,lvl = 6):
@@ -200,6 +250,8 @@ def MAD(x):
     sh = np.shape(x)
     sigma = 1.48*np.median((medfil))
     return sigma
+
+
 
 def mr_filter(img, niter, k, sigma,lvl = 6, pos = False, harder = 0,mulweight = 1, subweight = 0, addweight = 0, soft = False):
     """
@@ -240,34 +292,25 @@ def mr_filter(img, niter, k, sigma,lvl = 6, pos = False, harder = 0,mulweight = 
     M = np.zeros((lvl,n1,n2))
     M[:,:,:] = 0
     M[-1,:,:] = 1
-#    M[:,140:270,300:420] = 1
-#    M[:,450:545,500:590] = 1
-#    M[:,120:220,630:720] = 1
 
     sh = np.shape(M)
     th = np.ones(sh)*(k)
     ##A garder
-    th[0,:,:] = th[0,0,0]+1+5*harder
-    th[1,:,:] = th[1,:,:]+5*harder
-    th[2,:,:] = th[2,:,:]+4*harder
-    th[3,:,:] = th[3,:,:]+3*harder
-    th[4,:,:] = th[4,:,:]+2*harder
+    th[0,:,:] = th[0,0,0]+1
     
 ####################
 
     th =np.multiply(th.T,levels[:sh[0]]).T*sigma
     th[np.where(th<0)] = 0
     th[-1,:,:] = 0
+
     imnew = 0
     i =0
 
     R= img
 
- #   R[140:270,300:420] = 0.0
-#    R[450:545,500:590] = 0.0
-#    R[120:220,630:720] = 0.0
     alpha = mw.wave_transform(R,lvl, newwave = 0)
-    
+
     if pos == True :
          M[np.where(alpha-np.abs(addweight)+np.abs(subweight)-np.abs(th)*mulweight > 0)] = 1
     else:
@@ -275,24 +318,28 @@ def mr_filter(img, niter, k, sigma,lvl = 6, pos = False, harder = 0,mulweight = 
          M[np.where(np.abs(alpha)-np.abs(addweight)+np.abs(subweight)-np.abs(th)*mulweight > 0)] = 1
 
 
+
     while i < niter:
         R = img-imnew
- #       R[140:270,300:420] = 0.0
-#        R[450:545,500:590] = 0.0
-#        R[120:220,630:720] = 0.0
+
         alpha = mw.wave_transform(R,lvl,newwave = 1)
- #       plt.imshow(R); plt.show()
+
         if soft == True and i>0:
             alpha= np.sign(alpha)*(np.abs(alpha)-np.abs(addweight)+np.abs(subweight)-(th*mulweight))   
 
+
+
+
         Rnew = mw.iuwt(M*alpha)
         imnew = imnew+Rnew
-        
+        imnew[(imnew < 0)] = 0
+
         i = i+1
         
         
-        imnew[np.where(imnew<0)]=0
+
         wmap = mw.wave_transform(imnew,lvl)
+
     return imnew,wmap
 
 

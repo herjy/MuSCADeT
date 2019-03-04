@@ -102,7 +102,7 @@ def actg(X,Y):
     return angle
 
 
-def pca_lines(alphas, sig, dt, ns, alpha0 = [0,30], plot = 0):
+def pca_lines(alphas, sig, dt, ns, alpha0 = [0,40], plot = 0):
     """
     Finds alignments in PCA coefficients and identifies corresponding structures in direct space. It is actually a simple angular clustering algorithm.
     INPUTS:
@@ -149,9 +149,9 @@ def pca_lines(alphas, sig, dt, ns, alpha0 = [0,30], plot = 0):
     normtrunc = norm[loc]
     cluster = np.zeros(np.size(theta))*2
     attractors = np.zeros(ns)
-    attractors[0] = np.random.rand(1)*np.pi*2
-    for h in np.linspace(1,ns-1,ns-2):
-        attractors[h] = attractors[h-1]+2*dt+np.random.rand(ns)*dt/10
+    attractors[0] = np.pi/2.
+    for h in range(ns-1):
+        attractors[h+1] = attractors[h]+ 2*np.pi/(ns)
     find = 0
     last = 0
 
@@ -190,7 +190,7 @@ def pca_lines(alphas, sig, dt, ns, alpha0 = [0,30], plot = 0):
             for j in np.linspace(0,ns-1,ns):
                 sample = theta[np.where(cluster == j)]
                 if np.size(sample) ==0:
-                    attractors[j] = np.random.rand(1)*np.pi*2
+                    attractors[j] = oldattractors[j]+np.pi/2.
                 else:
                     if np.max(sample)-np.min(sample) >= np.pi:
                         sample[np.where(sample<np.pi)] = sample[np.where(sample<np.pi)] + 2*np.pi
