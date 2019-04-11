@@ -4,14 +4,15 @@
 """
 
 import numpy as np
-import mk_pca as mk
 #import k_means as km
 import matplotlib.pyplot as plt
 import scipy.signal as scp
 import sklearn.cluster as skc
 import matplotlib.cm as cm
 import astropy.io.fits as pf
-import MCA
+
+import MuSCADeT.mk_pca as mk
+from MuSCADeT import MCA
 
 def pca_ring_spectrum(images, std = 0):
     """
