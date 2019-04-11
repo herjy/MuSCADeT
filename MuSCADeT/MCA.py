@@ -6,10 +6,16 @@ from scipy import signal as scp
 import numpy as np
 import matplotlib.pyplot as plt
 import pca_ring_spectrum as pcas
-import pyfits as pf
+import astropy.io.fits as pf
 import wave_transform as mw
-import pylab
 import scipy.ndimage.filters as med
+
+
+NOISE_TAB = np.array([ 0.8907963 ,  0.20066385,  0.08550751,  0.04121745,  0.02042497,
+        0.01018976,  0.00504662,  0.00368314])
+
+NOISE_TAB_2G = np.array([ 0.94288346,  0.22998949,  0.10029194,  0.04860995,  0.02412084,
+    0.01498695])
 
 
 def mMCA(img, A,kmax, niter,mode = 'PCA', PCA = [2,40], harder = 0, pos = False,threshmode = 'mom',lvl = 0, PSF = None,
@@ -49,8 +55,6 @@ source. Values betwee 5 and 30 are usually recommended
     S,A = wine.MCA.mMCA(cube, A, 5,10, PCA=[2,80], mode=pca, harder = 1)
     
     """
-    noisetab = np.array([ 0.8907963 ,  0.20066385,  0.08550751,  0.04121745,  0.02042497,
-        0.01018976,  0.00504662,  0.00368314])
     n1,n2,nb = np.shape(img.T)
 
     if lvl ==0:
@@ -118,8 +122,8 @@ source. Values betwee 5 and 30 are usually recommended
 
 ################FOR PLOT#############
     th = np.ones((lvl,n1,n2))
-    th0 = np.multiply(th.T, noisetab[:lvl]).T * sigma[0]
-    th1 = np.multiply(th.T, noisetab[:lvl]).T * sigma[1]
+    th0 = np.multiply(th.T, NOISE_TAB[:lvl]).T * sigma[0]
+    th1 = np.multiply(th.T, NOISE_TAB[:lvl]).T * sigma[1]
 
     per= np.zeros((ns,niter))
     w = np.zeros((ns,lvl,n1,n2))
@@ -198,8 +202,6 @@ def MOM(R,sigma,lvl = 6):
 
     ns,n1,n2 = np.shape(R)
     
-    noisetab = np.array([ 0.8907963 ,  0.20066385,  0.08550751,  0.04121745,  0.02042497,
-        0.01018976,  0.00504662,  0.00368314])
     wmax = np.zeros((ns))
     wm = np.zeros((ns,lvl))
     w = np.zeros((ns,lvl,n1,n2))
@@ -208,7 +210,7 @@ def MOM(R,sigma,lvl = 6):
                 w[j,:,:,:] = mw.wave_transform(R[j,:,:],lvl)
     for j in np.linspace(0, ns-1, ns):
                 for l in np.linspace(0,lvl-2,lvl-1):
-                        wm[j,l] = np.max(np.abs(w[j,l,:,:]))/noisetab[l]
+                        wm[j,l] = np.max(np.abs(w[j,l,:,:]))/NOISE_TAB[l]
                 wmax[j] = np.max(wm[j,:])
                 wmax[j] = wmax[j]/np.mean(sigma[j])
                 
@@ -217,16 +219,13 @@ def MOM(R,sigma,lvl = 6):
 
 def MM(R,sigma,lvl = 6):
     n1,n2 = np.shape(R)
-    
-    noisetab = np.array([ 0.8907963 ,  0.20066385,  0.08550751,  0.04121745,  0.02042497,
-                         0.01018976,  0.00504662,  0.00368314])
         
     wm = np.zeros((lvl))
     w = np.zeros((lvl,n1,n2))
                          
     w[:,:,:] = mw.wave_transform(R,lvl)
     for l in np.linspace(0,lvl-2,lvl-1):
-        wm[l] = np.max(np.abs(w[l,:,:]))/noisetab[l]
+        wm[l] = np.max(np.abs(w[l,:,:]))/NOISE_TAB[l]
     wmax = np.max(wm)/sigma
 
     k = (wmax)-(wmax)/100
@@ -280,12 +279,6 @@ def mr_filter(img, niter, k, sigma,lvl = 6, pos = False, harder = 0,mulweight = 
       EXAMPLES
     """
 
-
-    levels = np.array([ 0.8907963 ,  0.20066385,  0.08550751,  0.04121745,  0.02042497,
-        0.01018976,  0.00504662,  0.00368314])
-    levels2g = np.array([ 0.94288346,  0.22998949,  0.10029194,  0.04860995,  0.02412084,
-        0.01498695])
-
     shim = np.shape(img)
     n1 = shim[0]
     n2 = shim[1]
@@ -300,7 +293,7 @@ def mr_filter(img, niter, k, sigma,lvl = 6, pos = False, harder = 0,mulweight = 
     
 ####################
 
-    th =np.multiply(th.T,levels[:sh[0]]).T*sigma
+    th =np.multiply(th.T, NOISE_TAB[:sh[0]]).T*sigma
     th[np.where(th<0)] = 0
     th[-1,:,:] = 0
 

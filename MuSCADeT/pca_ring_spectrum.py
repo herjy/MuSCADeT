@@ -10,7 +10,7 @@ import matplotlib.pyplot as plt
 import scipy.signal as scp
 import sklearn.cluster as skc
 import matplotlib.cm as cm
-import pyfits as pf
+import astropy.io.fits as pf
 import MCA
 
 def pca_ring_spectrum(images, std = 0):
