@@ -59,8 +59,8 @@ source. Values betwee 5 and 30 are usually recommended
     """
     n1,n2,nb = np.shape(img.T)
 
-    if lvl ==0:
-        lvl = np.int(np.log2(n1))
+    if lvl == 0:
+        lvl = int(np.log2(n1))
 
     if np.sum(mask) == 0:
         mask = np.ones((n1,n2))
@@ -78,7 +78,7 @@ source. Values betwee 5 and 30 are usually recommended
     A = np.multiply(A,[1./np.sum(A,0)])
     AT = A.T
 
-    mu = 2/linorm(A,10)
+    mu = 2. / linorm(A, 10)
 
     Y = np.reshape(img,(nb,n1*n2))
 
@@ -90,7 +90,7 @@ source. Values betwee 5 and 30 are usually recommended
 
 
 
-    if PSF != None:
+    if PSF is not None:
         PSFT = np.copy(PSF)
         print(np.shape(PSF))
         for ind in range(nb):
@@ -141,38 +141,38 @@ source. Values betwee 5 and 30 are usually recommended
         sigma = np.reshape(sig_map,(ns,n1,n2))
 
     for i in range(niter):
-            print(i)
-            AX = np.dot(A,X)
+        print(i)
+        AX = np.dot(A,X)
 
 
-            if PSF != None:
-                AX = PSF_apply(AX.reshape((nb,n1,n2))).reshape((nb,n1*n2))
-                R = mu*np.dot(AT, PSFT_apply(np.reshape(Y-AX,(nb,n1,n2))).reshape(nb,n1*n2))
-            else:
-                R = mu*np.dot(AT, Y-AX)
-            X = np.real(X+R)
-            S = X
-            if threshmode == 'mom':
-                    kmas = MOM(np.reshape(R,(ns,n1,n2)),sigma,lvl=lvl)
-                    threshmom =np.max([kmas,kmax])
-                    if threshmom <k:
-                            k = threshmom
-                            step = ((k-kmax)/(niter-i-6))
-                            print('threshold from MOM',threshmom)
-            
-            for j in range(ns):
-                    kthr = np.max([kmax, k])
-                    Sj,wmap = mr_filter(np.reshape(S[j,:],(n1,n2)),20,kthr,sigma[j],harder = harder, lvl = lvl,pos = pos,soft = soft)
-                    S[j,:] = np.reshape(Sj,(n1*n2))
+        if PSF != None:
+            AX = PSF_apply(AX.reshape((nb,n1,n2))).reshape((nb,n1*n2))
+            R = mu*np.dot(AT, PSFT_apply(np.reshape(Y-AX,(nb,n1,n2))).reshape(nb,n1*n2))
+        else:
+            R = mu*np.dot(AT, Y-AX)
+        X = np.real(X+R)
+        S = X
+        if threshmode == 'mom':
+                kmas = MOM(np.reshape(R,(ns,n1,n2)),sigma,lvl=lvl)
+                threshmom =np.max([kmas,kmax])
+                if threshmom <k:
+                        k = threshmom
+                        step = ((k-kmax)/(niter-i-6))
+                        print('threshold from MOM',threshmom)
+        
+        for j in range(ns):
+                kthr = np.max([kmax, k])
+                Sj,wmap = mr_filter(np.reshape(S[j,:],(n1,n2)),20,kthr,sigma[j],harder = harder, lvl = lvl,pos = pos,soft = soft, newwave=newwave)
+                S[j,:] = np.reshape(Sj,(n1*n2))
 
 
-            X = np.multiply(S,np.reshape(mask,(n1*n2)))
+        X = np.multiply(S,np.reshape(mask,(n1*n2)))
 
 
 
-            a = 1
-            ks[i] = kthr
-            k = k-step
+        a = 1
+        ks[i] = kthr
+        k = k-step
         
     S = np.reshape(S,(ns,n1,n2))
     plt.plot(ks, linewidth = 5)
@@ -208,10 +208,10 @@ def MOM(R, sigma, lvl=6 , newwave=1):
     wm = np.zeros((ns,lvl))
     w = np.zeros((ns,lvl,n1,n2))
     
-    for j in np.linspace(0, ns-1, ns):
+    for j in range(ns):
         w[j,:,:,:], _ = mw.wave_transform(R[j,:,:],lvl, newwave=newwave, verbose=False)
-    for j in np.linspace(0, ns-1, ns):
-        for l in np.linspace(0,lvl-2,lvl-1):
+    for j in range(ns):
+        for l in range(lvl-1):
                 wm[j,l] = np.max(np.abs(w[j,l,:,:]))/NOISE_TAB[l]
         wmax[j] = np.max(wm[j,:])
         wmax[j] = wmax[j]/np.mean(sigma[j])
@@ -226,7 +226,7 @@ def MM(R, sigma, lvl=6, newwave=1):
     w = np.zeros((lvl,n1,n2))
                          
     w[:,:,:], _ = mw.wave_transform(R,lvl, newwave=newwave, verbose=False)
-    for l in np.linspace(0,lvl-2,lvl-1):
+    for l in range(lvl-1):
         wm[l] = np.max(np.abs(w[l,:,:]))/NOISE_TAB[l]
     wmax = np.max(wm)/sigma
 
@@ -295,14 +295,14 @@ def mr_filter(img, niter, k, sigma,lvl = 6, pos = False, harder = 0,mulweight = 
     
 ####################
 
-    th =np.multiply(th.T, NOISE_TAB[:sh[0]]).T*sigma
+    th = np.multiply(th.T, NOISE_TAB[:sh[0]]).T * sigma
     th[np.where(th<0)] = 0
     th[-1,:,:] = 0
 
     imnew = 0
-    i =0
+    i = 0
 
-    R= img
+    R = img
 
     # here, always 1st gen transform (apparently better ?)
     alpha, _ = mw.wave_transform(R, lvl, newwave=0, verbose=False)
@@ -360,7 +360,7 @@ def linorm(A,nit):
     x0 = x0/np.sqrt(np.sum(x0**2))
 
     
-    for i in np.linspace(0,nit-1,nit):
+    for i in range(nit):
         x = np.dot(A,x0)
         xn = np.sqrt(np.sum(x**2))
         xp = x/xn
@@ -401,8 +401,8 @@ def PCA_initialise(cube, ns, angle = 15,npca = 32, alpha = [0,0], plot = 0, neww
         cubep[:,:,i] = mr_filter(cube[:,:,i],10,3,s[i],harder = 0, newwave=newwave)[0]
     
     cubepca = np.zeros((np.min([n,npca]),np.min([n,npca]),nband))
-    xk,yk = np.where(cubepca[:,:,0]==0)
-    cubepca[xk ,yk,:] = cubep[xk*(n/npca),yk*(n/npca),:]
+    xk, yk = np.where(cubepca[:,:,0]==0)
+    cubepca[xk, yk, :] = cubep[xk*int(n/npca), yk*int(n/npca), :]
     lines = np.reshape(cubep,(n**2, nband))
 
    

@@ -92,13 +92,13 @@ def uwt_original(img, lvl, Filter = 'Bspline', newwave = 1, convol2d = 0):
     h = np.array(h)
     
     if n+2.**(lvl-1)*(n-1) >= np.min([n1,n2])/2.:
-        lvl = np.int_(np.log2((n1-1.)/(n-1.))+1.)
+        lvl = int(np.log2((n1-1.)/(n-1.))+1.)
 
     c = img
     ## wavelet set of coefficients.
     wave = np.zeros([lvl+1,n1,n2])
   
-    for i in np.linspace(0,lvl-1,lvl):
+    for i in range(lvl):
         newh = np.zeros((1,n+(n-1)*(2**i-1)))
         newh[0,np.int_(np.linspace(0,np.size(newh)-1,len(h)))] = h
         H = np.dot(newh.T,newh)
@@ -106,24 +106,24 @@ def uwt_original(img, lvl, Filter = 'Bspline', newwave = 1, convol2d = 0):
         ######Calculates c(j+1)
         ###### Line convolution
         if convol2d == 1:
-            cnew = cp.convolve2d(c, H, mode='same', boundary='symm')
+            cnew = scs.convolve2d(c, H, mode='same', boundary='symm')
         else:
-            cnew = sc.convolve1d(c,newh[0,:],axis = 0, mode =mode)
+            cnew = scf.convolve1d(c,newh[0,:],axis = 0, mode =mode)
 
             ###### Column convolution
-            cnew = sc.convolve1d(cnew,newh[0,:],axis = 1, mode =mode)
+            cnew = scf.convolve1d(cnew,newh[0,:],axis = 1, mode =mode)
 
  
       
         if newwave ==1:
             ###### hoh for g; Column convolution
             if convol2d == 1:
-                hc = cp.convolve2d(cnew, H, mode='same', boundary='symm')
+                hc = scs.convolve2d(cnew, H, mode='same', boundary='symm')
             else:
-                hc = sc.convolve1d(cnew,newh[0,:],axis = 0, mode = mode)
+                hc = scf.convolve1d(cnew,newh[0,:],axis = 0, mode = mode)
  
                 ###### hoh for g; Line convolution
-                hc = sc.convolve1d(hc,newh[0,:],axis = 1, mode = mode)
+                hc = scf.convolve1d(hc,newh[0,:],axis = 1, mode = mode)
             
             ###### wj+1 = cj-hcj+1
             wave[i,:,:] = c-hc
@@ -139,8 +139,11 @@ def uwt_original(img, lvl, Filter = 'Bspline', newwave = 1, convol2d = 0):
 
     return wave
 
-def iuwt_original(wave, convol2d =0):
+def iuwt_original(wave, convol2d =0, newwave=1, fast=True):
     """private function : Inverse wavelet transform through original MuSCADeT algorithm"""
+    if newwave == 0 and fast:
+        # simply sum all scales, including the coarsest one
+        return np.sum(wave, axis=0)
 
     mode = 'nearest'
     
@@ -153,17 +156,17 @@ def iuwt_original(wave, convol2d =0):
     
     for i in np.linspace(1,lvl-1,lvl-1):
         
-        newh = np.zeros((1,n+(n-1)*(2**(lvl-1-i)-1)))
+        newh = np.zeros( ( 1, int(n+(n-1)*(2**(lvl-1-i)-1)) ) )
         newh[0,np.int_(np.linspace(0,np.size(newh)-1,len(h)))] = h
         H = np.dot(newh.T,newh)
 
         ###### Line convolution
         if convol2d == 1:
-            cnew = cp.convolve2d(cJ, H, mode='same', boundary='symm')
+            cnew = scs.convolve2d(cJ, H, mode='same', boundary='symm')
         else:
-          cnew = sc.convolve1d(cJ,newh[0,:],axis = 0, mode = mode)
+          cnew = scf.convolve1d(cJ,newh[0,:],axis = 0, mode = mode)
             ###### Column convolution
-          cnew = sc.convolve1d(cnew,newh[0,:],axis = 1, mode = mode)
+          cnew = scf.convolve1d(cnew,newh[0,:],axis = 1, mode = mode)
 
         cJ = cnew+wave[lvl-1-i,:,:]
 
