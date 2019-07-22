@@ -3,7 +3,7 @@ import scipy.signal as scs
 import scipy.ndimage.filters as scf
 
 
-def uwt_pysap(img, lvl, Filter='Bspline', n_omp_threads=None):
+def uwt_pysap(img, lvl, Filter='Bspline', n_omp_threads=0):
     """private function : Wavelet transform through PySAP"""
 
     import pysap
@@ -19,16 +19,14 @@ def uwt_pysap(img, lvl, Filter='Bspline', n_omp_threads=None):
 
         transform_name = 'BsplineWaveletTransformATrousAlgorithm'
 
-        transf_kwargs = {}
-        if n_omp_threads is not None:
-            transf_kwargs['nb_procs'] = n_omp_threads
-
         # note that if 'n_omp_threads' is not provided, 
         # PySAP will automatically set it the 
         # max number of CPUs available minus 1
 
         transform_obj = pysap.load_transform(transform_name)
-        transform = transform_obj(nb_scale=nb_scale, verbose=False, **transf_kwargs)
+        transform = transform_obj(nb_scale=nb_scale, verbose=1, 
+                                  padding_mode='symmetric',
+                                  nb_procs=n_omp_threads)
 
     else:
         raise NotImplementedError("Only sarlet transform is supported for now")
@@ -91,8 +89,8 @@ def uwt_original(img, lvl, Filter = 'Bspline', newwave = 1, convol2d = 0):
     n = np.size(h)
     h = np.array(h)
     
-    if n+2.**(lvl-1)*(n-1) >= np.min([n1,n2])/2.:
-        lvl = int(np.log2((n1-1.)/(n-1.))+1.)
+    # if n+2.**(lvl-1)*(n-1) >= np.min([n1,n2])/2.:
+    #     lvl = int(np.log2((n1-1.)/(n-1.))+1.)
 
     c = img
     ## wavelet set of coefficients.
@@ -154,7 +152,7 @@ def iuwt_original(wave, convol2d =0, newwave=1, fast=True):
     cJ = np.copy(wave[lvl-1,:,:])
     
     
-    for i in np.linspace(1,lvl-1,lvl-1):
+    for i in range(1, lvl):
         
         newh = np.zeros( ( 1, int(n+(n-1)*(2**(lvl-1-i)-1)) ) )
         newh[0,np.int_(np.linspace(0,np.size(newh)-1,len(h)))] = h

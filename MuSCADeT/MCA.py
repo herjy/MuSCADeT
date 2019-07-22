@@ -57,16 +57,17 @@ source. Values betwee 5 and 30 are usually recommended
     S,A = wine.MCA.mMCA(cube, A, 5,10, PCA=[2,80], mode=pca, harder = 1)
     
     """
-    n1,n2,nb = np.shape(img.T)
+    nb, n1, n2 = np.shape(img)
 
     if lvl == 0:
         lvl = int(np.log2(n1))
+        print("using lvl (including coarse scale !)", lvl)
 
     if np.sum(mask) == 0:
         mask = np.ones((n1,n2))
     img = np.multiply(img,mask)
 
-    print(mode)
+    print("mode", mode)
     if mode == 'PCA':
         Apca = PCA_initialise(img.T, PCA[0], angle = PCA[1], alpha = alpha, npca = npca, plot = plot, newwave=newwave)
         Apca = np.multiply(Apca,[1./np.sum(Apca,0)])      
@@ -92,7 +93,6 @@ source. Values betwee 5 and 30 are usually recommended
 
     if PSF is not None:
         PSFT = np.copy(PSF)
-        print(np.shape(PSF))
         for ind in range(nb):
             PSFT[ind,:,:] = PSF[ind,:,:].T
 
@@ -141,11 +141,12 @@ source. Values betwee 5 and 30 are usually recommended
         sigma = np.reshape(sig_map,(ns,n1,n2))
 
     for i in range(niter):
-        print(i)
+        if i % 10 == 0:
+            print(i)
         AX = np.dot(A,X)
 
 
-        if PSF != None:
+        if PSF is not None:
             AX = PSF_apply(AX.reshape((nb,n1,n2))).reshape((nb,n1*n2))
             R = mu*np.dot(AT, PSFT_apply(np.reshape(Y-AX,(nb,n1,n2))).reshape(nb,n1*n2))
         else:
@@ -153,17 +154,17 @@ source. Values betwee 5 and 30 are usually recommended
         X = np.real(X+R)
         S = X
         if threshmode == 'mom':
-                kmas = MOM(np.reshape(R,(ns,n1,n2)),sigma,lvl=lvl)
-                threshmom =np.max([kmas,kmax])
-                if threshmom <k:
-                        k = threshmom
-                        step = ((k-kmax)/(niter-i-6))
-                        print('threshold from MOM',threshmom)
+            kmas = MOM(np.reshape(R,(ns,n1,n2)),sigma,lvl=lvl)
+            threshmom = np.max([kmas,kmax])
+            if threshmom < k:
+                k = threshmom
+                step = ((k-kmax)/(niter-i-6))
+                print('threshold from MOM',threshmom)
         
         for j in range(ns):
-                kthr = np.max([kmax, k])
-                Sj,wmap = mr_filter(np.reshape(S[j,:],(n1,n2)),20,kthr,sigma[j],harder = harder, lvl = lvl,pos = pos,soft = soft, newwave=newwave)
-                S[j,:] = np.reshape(Sj,(n1*n2))
+            kthr = np.max([kmax, k])
+            Sj,wmap = mr_filter(np.reshape(S[j,:],(n1,n2)),20,kthr,sigma[j],harder = harder, lvl = lvl,pos = pos,soft = soft, newwave=newwave)
+            S[j,:] = np.reshape(Sj,(n1*n2))
 
 
         X = np.multiply(S,np.reshape(mask,(n1*n2)))
@@ -212,7 +213,7 @@ def MOM(R, sigma, lvl=6 , newwave=1):
         w[j,:,:,:], _ = mw.wave_transform(R[j,:,:],lvl, newwave=newwave, verbose=False)
     for j in range(ns):
         for l in range(lvl-1):
-                wm[j,l] = np.max(np.abs(w[j,l,:,:]))/NOISE_TAB[l]
+            wm[j,l] = np.max(np.abs(w[j,l,:,:]))/NOISE_TAB[l]
         wmax[j] = np.max(wm[j,:])
         wmax[j] = wmax[j]/np.mean(sigma[j])
                 
@@ -285,17 +286,15 @@ def mr_filter(img, niter, k, sigma,lvl = 6, pos = False, harder = 0,mulweight = 
     n1 = shim[0]
     n2 = shim[1]
     M = np.zeros((lvl,n1,n2))
-    M[:,:,:] = 0
     M[-1,:,:] = 1
 
-    sh = np.shape(M)
-    th = np.ones(sh)*(k)
+    th = np.ones_like(M) * k
     ##A garder
-    th[0,:,:] = th[0,0,0]+1
+    th[0,:,:] = k+1
     
 ####################
 
-    th = np.multiply(th.T, NOISE_TAB[:sh[0]]).T * sigma
+    th = np.multiply(th.T, NOISE_TAB[:lvl]).T * sigma
     th[np.where(th<0)] = 0
     th[-1,:,:] = 0
 
@@ -392,13 +391,13 @@ def PCA_initialise(cube, ns, angle = 15,npca = 32, alpha = [0,0], plot = 0, neww
 
       EXAMPLES
     """
-
     n,n,nband = np.shape(cube)
     cubep = cube+0.
+    lvl = int(np.log2(n))
     s = np.zeros(nband)
     for i in range(nband):
         s[i] = MAD(cube[:,:,i])
-        cubep[:,:,i] = mr_filter(cube[:,:,i],10,3,s[i],harder = 0, newwave=newwave)[0]
+        cubep[:,:,i] = mr_filter(cube[:,:,i],10,3,s[i],harder = 0, lvl=lvl, newwave=newwave)[0]
     
     cubepca = np.zeros((np.min([n,npca]),np.min([n,npca]),nband))
     xk, yk = np.where(cubepca[:,:,0]==0)

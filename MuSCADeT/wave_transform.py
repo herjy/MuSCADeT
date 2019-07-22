@@ -15,8 +15,7 @@ except ImportError:
     pysap_installed = False
 else:
     pysap_installed = True
-
-
+    
 # TODO : terminate proper PySAP inegration (i.e. manage the 'pysap_transform' 
 # object returned by wave_transform(), then pass it to iuwt())
 
@@ -80,7 +79,7 @@ def iuwt(wave, newwave=1, convol2d=0, pysap_transform=None, verbose=False):
             if verbose:
                 print("WARNING : PySAP does not support 2nd gen starlet")
                 print(original_warning)
-            coeffs = wtb.iuwt_original(wave, convol2d=convol2d, newwave=newwave, fast=True)
+            recon = wtb.iuwt_original(wave, convol2d=convol2d, newwave=newwave, fast=True)
     
     else:
         if verbose:
