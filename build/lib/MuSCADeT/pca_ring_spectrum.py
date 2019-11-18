@@ -4,8 +4,6 @@
 """
 
 import numpy as np
-import matplotlib.pyplot as plt # Needed to visualize PCA coefficients.
-
 
 import MuSCADeT.mk_pca as mk
 from MuSCADeT import MCA
