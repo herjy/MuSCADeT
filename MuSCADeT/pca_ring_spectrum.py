@@ -4,14 +4,15 @@
 """
 
 import numpy as np
-import mk_pca as mk
 #import k_means as km
 import matplotlib.pyplot as plt
 import scipy.signal as scp
 import sklearn.cluster as skc
 import matplotlib.cm as cm
-import pyfits as pf
-import MCA
+import astropy.io.fits as pf
+
+import MuSCADeT.mk_pca as mk
+from MuSCADeT import MCA
 
 def pca_ring_spectrum(images, std = 0):
     """
@@ -36,7 +37,7 @@ def pca_ring_spectrum(images, std = 0):
     sigmamr = np.zeros(s)
     tr = res+0 #For thresholded images
     support = np.zeros((n1,n2))
-    for j in np.linspace(0,s-1,s):
+    for j in range(s):
         sigmamr[j] = MCA.MAD(res0[:,:,j])
         res[:,:,j] = res1[:,:,j]
         x,y = np.where(res[:,:,j]==0)
@@ -155,10 +156,10 @@ def pca_lines(alphas, sig, dt, ns, alpha0 = [0,40], plot = 0):
     find = 0
     last = 0
 
-    beta = np.zeros(2*np.pi/dt)
+    beta = np.zeros(2*int(np.pi/dt))
     count = 0
     maxi = np.zeros(ns)
-    loctheta = np.zeros(2*np.pi/dt)
+    loctheta = np.zeros(2*int(np.pi/dt))
     k = 0
 
     if np.sum(alpha0)!=0:    
@@ -187,7 +188,7 @@ def pca_lines(alphas, sig, dt, ns, alpha0 = [0,40], plot = 0):
                 break
             #Recomputing attractors by averaging over the detected angles
             oldattractors = attractors+0.
-            for j in np.linspace(0,ns-1,ns):
+            for j in range(ns):
                 sample = theta[np.where(cluster == j)]
                 if np.size(sample) ==0:
                     attractors[j] = oldattractors[j]+np.pi/2.
@@ -207,7 +208,7 @@ def pca_lines(alphas, sig, dt, ns, alpha0 = [0,40], plot = 0):
 
     #Select only the coefficients in an given angular proximity
     locky = np.zeros(np.size(theta))-1.
-    for i in np.linspace(0,ns-1,ns):
+    for i in range(ns):
         distance = np.abs(theta-attractors[i])
 
         bigloc = np.where(distance >= np.pi)
@@ -237,13 +238,13 @@ def pca_lines(alphas, sig, dt, ns, alpha0 = [0,40], plot = 0):
 #    plt.plot([0,np.cos(attractors[1])],[0,np.sin(attractors[1])])
 #    plt.show()
     
-    images = np.zeros([n2**0.5,n2**0.5])
+    images = np.zeros((int(n2**0.5), int(n2**0.5)))
     images[:,:]=-1
-    x,y = np.where(np.zeros((n2**0.5,n2**0.5))==0)
+    x,y = np.where(np.zeros((int(n2**0.5), int(n2**0.5)))==0)
 
 
     clus = angle +0.
-    for j in np.linspace(0,np.size(angle)-1, np.size(angle)):
+    for j in range(np.size(angle)):
 
  #       clus[j] = np.where(mini==j)#np.where(np.abs(axis-angle[j]) == np.min(np.abs(axis-angle[j])))[0]+1
  #       if norm0[j] == 0: 

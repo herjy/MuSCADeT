@@ -8,9 +8,10 @@ import pyfits as pf
 #from mpl_toolkits.axes_grid1.axes_rgb import RGBAxes
 import matplotlib.colors as mc
 import subprocess as sp
-from MuSCADeT import MCA
 import scipy.signal as sc
 import os
+
+from MuSCADeT import MCA
 
 def make_colour_sub(Sfile,Afile,Xfile,suffixe,prefix = './', cuts = ['0','0.1','-0.002','0.06','-0.002','0.03','0', '0.5'], display=True, simu_folder='', sel=[0,0,0], PSF=0):
     """
