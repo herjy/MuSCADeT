@@ -4,7 +4,7 @@
 
 import numpy as np
 
-def asinh_norm(data, Q = 10, bands = [0,1,2], range = 1):
+def asinh_norm(data, Q = 10, bands = [0,1,2], range = None):
     """Normalises frames in a data-cube for rgb display
 
     Parameter:
