@@ -1,4 +1,4 @@
-from MCA import *
+from . import MCA
 import colour_subtraction
 import mk_pca
 import pca_ring_spectrum

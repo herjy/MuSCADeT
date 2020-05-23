@@ -55,7 +55,7 @@ def wave_transform(img, lvl, Filter = 'Bspline', newwave = 1, convol2d = 0):
         ######Calculates c(j+1)
         ###### Line convolution
         if convol2d == 1:
-            cnew = cp.convolve2d(c, H, mode='same', boundary='redlect')
+            cnew = cp.convolve2d(c, H, mode='same', boundary='reflect')
         else:
             cnew = sc.convolve1d(c,newh[0,:],axis = 0, mode =mode)
 
