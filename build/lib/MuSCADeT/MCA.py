@@ -261,9 +261,10 @@ def mr_filter(img, niter, k, sigma,lvl = 6, pos = False, harder = 0,mulweight = 
 
       EXAMPLES
     """
-    alpha, _ = mw.wave_transform(img, lvl, newwave=0, verbose=False)
-    
-    lvl, n1,n2 = alpha.shape
+
+    shim = np.shape(img)
+    n1 = shim[0]
+    n2 = shim[1]
     M = np.zeros((lvl,n1,n2))
     M[-1,:,:] = 1
 
@@ -277,17 +278,24 @@ def mr_filter(img, niter, k, sigma,lvl = 6, pos = False, harder = 0,mulweight = 
     th[np.where(th<0)] = 0
     th[-1,:,:] = 0
 
+    imnew = 0
+    i = 0
+
+    R = img
+
     # here, always 1st gen transform (apparently better ?)
+    alpha, _ = mw.wave_transform(R, lvl, newwave=0, verbose=False)
+
     if pos == True :
          M[np.where(alpha-np.abs(addweight)+np.abs(subweight)-np.abs(th)*mulweight > 0)] = 1
     else:
 
          M[np.where(np.abs(alpha)-np.abs(addweight)+np.abs(subweight)-np.abs(th)*mulweight > 0)] = 1
-            
-    imnew = 0
-    i = 0
+
+
+
     while i < niter:
-        R =img - imnew
+        R = img-imnew
 
         alpha, pysap_transform = mw.wave_transform(R,lvl, newwave=newwave, verbose=False)
 
@@ -303,6 +311,8 @@ def mr_filter(img, niter, k, sigma,lvl = 6, pos = False, harder = 0,mulweight = 
         imnew[(imnew < 0)] = 0
 
         i = i+1
+
+
 
         wmap, _ = mw.wave_transform(imnew,lvl, newwave=newwave, verbose=False)
 
@@ -405,7 +415,7 @@ def PCA_initialise(cube, ns, angle = 15,npca = 32, alpha = [0,0], plot = 0, neww
         xcol,ycol=np.where(ims0==k)
         specs = np.reshape(cubepca[xcol,ycol,:],(len(xcol),nband))
         s1 =np.multiply(np.mean(specs,0),
-                                      1/np.sum(np.reshape(cubepca,(npca**2,nband)),0))
+                                      1/np.sum(np.reshape(cubepca,(npca**2,nband),0)))
         spectras[count,:]=s1/np.sum(s1,0)
         S_prior[:,:,count] = S_prior[:,:,count]*np.dot(cube,spectras[count,:])
         count = count+1

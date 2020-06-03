@@ -15,7 +15,7 @@ def symmetrise(img, size):
 
     return img
     
-def wave_transform(img, lvl, Filter = 'Bspline', newwave = 1, convol2d = 0, verbose = None):
+def wave_transform(img, lvl, Filter = 'Bspline', newwave = 1, convol2d = 0):
 
     mode = 'nearest'
     
@@ -24,7 +24,7 @@ def wave_transform(img, lvl, Filter = 'Bspline', newwave = 1, convol2d = 0, verb
     if np.size(sh) ==3:
         mn = np.min(sh)
         wave = np.zeros([lvl+1,sh[1], sh[1],mn])
-        for h in np.linspace(0,mn-1, mn).astype(int):
+        for h in np.linspace(0,mn-1, mn):
             if mn == sh[0]:
                 wave[:,:,:,h] = wave_transform(img[h,:,:],lvl+1, Filter = Filter)
             else:
@@ -47,7 +47,7 @@ def wave_transform(img, lvl, Filter = 'Bspline', newwave = 1, convol2d = 0, verb
     ## wavelet set of coefficients.
     wave = np.zeros([lvl+1,n1,n2])
   
-    for i in np.linspace(0,lvl-1,lvl).astype(int):
+    for i in np.linspace(0,lvl-1,lvl):
         newh = np.zeros((1,n+(n-1)*(2**i-1)))
         newh[0,np.int_(np.linspace(0,np.size(newh)-1,len(h)))] = h
         H = np.dot(newh.T,newh)
@@ -86,9 +86,9 @@ def wave_transform(img, lvl, Filter = 'Bspline', newwave = 1, convol2d = 0, verb
      
     wave[i+1,:,:] = c
 
-    return wave, None
+    return wave
 
-def iuwt(wave, convol2d =0, newwave = 0, pysap_transform = None, verbose = None):
+def iuwt(wave, convol2d =0):
     mode = 'nearest'
     
     lvl,n1,n2 = np.shape(wave)
@@ -98,10 +98,10 @@ def iuwt(wave, convol2d =0, newwave = 0, pysap_transform = None, verbose = None)
     cJ = np.copy(wave[lvl-1,:,:])
     
     
-    for i in np.linspace(1,lvl-1,lvl-1).astype(int):
+    for i in np.linspace(1,lvl-1,lvl-1):
         
         newh = np.zeros((1,n+(n-1)*(2**(lvl-1-i)-1)))
-        newh[0,np.linspace(0,np.size(newh)-1,len(h)).astype(int)] = h
+        newh[0,np.int_(np.linspace(0,np.size(newh)-1,len(h)))] = h
         H = np.dot(newh.T,newh)
 
         ###### Line convolution

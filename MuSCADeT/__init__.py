@@ -1,5 +1,5 @@
 from . import MCA
-import colour_subtraction
-import mk_pca
-import pca_ring_spectrum
-import wave_transform
+from . import colour_subtraction
+from . import mk_pca
+from . import pca_ring_spectrum
+from . import wave_transform
