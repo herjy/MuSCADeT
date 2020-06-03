@@ -414,8 +414,7 @@ def PCA_initialise(cube, ns, angle = 15,npca = 32, alpha = [0,0], plot = 0, neww
         ######Essai norm#####
         xcol,ycol=np.where(ims0==k)
         specs = np.reshape(cubepca[xcol,ycol,:],(len(xcol),nband))
-        s1 =np.multiply(np.mean(specs,0),
-                                      1/np.sum(np.reshape(cubepca,(npca**2,nband),0)))
+        s1 = np.mean(specs,0)
         spectras[count,:]=s1/np.sum(s1,0)
         S_prior[:,:,count] = S_prior[:,:,count]*np.dot(cube,spectras[count,:])
         count = count+1
