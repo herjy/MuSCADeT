@@ -129,8 +129,8 @@ source. Values betwee 5 and 30 are usually recommended
         sigma = np.reshape(sig_map,(ns,n1,n2))
 
     for i in range(niter):
-        #if i % 10 == 0:
-        #    print(i)
+        if i % 10 == 0:
+            print(i)
         AX = np.dot(A,X)
 
 
@@ -147,7 +147,7 @@ source. Values betwee 5 and 30 are usually recommended
             if threshmom < k:
                 k = threshmom
                 step = ((k-kmax)/(niter-i-6))
-                #print('threshold from MOM',threshmom)
+                print('threshold from MOM',threshmom)
 
         for j in range(ns):
             kthr = np.max([kmax, k])
@@ -404,9 +404,12 @@ def PCA_initialise(cube, ns, angle = 15,npca = 32, alpha = [0,0], plot = 0, neww
         ######Essai norm#####
         xcol,ycol=np.where(ims0==k)
         specs = np.reshape(cubepca[xcol,ycol,:],(len(xcol),nband))
+<<<<<<< HEAD
         s1 =np.multiply(np.mean(specs,0),
                                       1/np.sum(np.reshape(cubepca,(npca**2,nband)),0))
-        #s1 = np.mean(specs,0)
+=======
+        s1 = np.mean(specs,0)
+>>>>>>> 85efacd2b41f1de36fc57c8dd5bcb611cfba35f2
         spectras[count,:]=s1/np.sum(s1,0)
         S_prior[:,:,count] = S_prior[:,:,count]*np.dot(cube,spectras[count,:])
         count = count+1
